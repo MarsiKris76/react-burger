@@ -1,0 +1,5 @@
+.scrollContainer {
+    height: calc(100vh - 250px); /* Высота минус заголовок и табы */
+    overflow-y: auto;
+    padding-right: 10px; /* Компенсация для скроллбара */
+}

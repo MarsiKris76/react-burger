@@ -1,0 +1,36 @@
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header div,
+.header nav {
+    display: flex;
+}
+
+.nav {
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.leftSection,
+.rightSection {
+    align-items: center;
+    flex: 1;
+    gap: 20px;
+}
+
+.leftSection {
+    justify-content: flex-start;
+}
+
+.centerSection {
+    flex: 0 0 auto;
+}
+
+.rightSection {
+    justify-content: flex-end;
+}
