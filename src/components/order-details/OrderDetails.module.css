@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orderNumber {
+    color: #F2F2F3;
+}
+
+.checkMark {
+    margin: 30px 0;
+}

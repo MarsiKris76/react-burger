@@ -1,12 +1,12 @@
 import {useEffect, useState} from 'react';
 import styles from './App.module.css';
-import {AppHeader} from "./components/app-header/AppHeader";
-import {BurgerIngredients} from "./components/burger-ingredients/BurgerIngredients";
-import {BurgerConstructor} from "./components/burger-constructor/BurgerConstructor";
-import {Ingredient} from "./types/Types";
-import {getIngredientsApi} from "./utils/BurgerApi";
-import {Modal} from "./components/modal/Modal";
-import {OrderDetails} from "./components/order-details/OrderDetails";
+import {AppHeader} from "../app-header/AppHeader";
+import {BurgerIngredients} from "../burger-ingredients/BurgerIngredients";
+import {BurgerConstructor} from "../burger-constructor/BurgerConstructor";
+import {Ingredient} from "../../types/Types";
+import {getIngredientsApi} from "../../utils/BurgerApi";
+import {Modal} from "../modal/Modal";
+import {OrderDetails} from "../order-details/OrderDetails";
 
 function App() {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -53,7 +53,7 @@ function App() {
             </div>
         </main>
           {isOrderModalOpen && (
-              <Modal title="Детали заказа" onClose={handleCloseOrderModal}>
+              <Modal title="" onClose={handleCloseOrderModal}>
                   <OrderDetails />
               </Modal>
           )}

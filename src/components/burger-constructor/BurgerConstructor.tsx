@@ -8,9 +8,9 @@ export const BurgerConstructor = ({ onOrderClick }: BurgerConstructorProps) => {
     const totalPrice = testBun.price + testIngredients.reduce((sum, item) => sum + item.price, 0);
 
     return (
-        <section className={styles.section + " mt-25"}>
+        <section className={styles.section + " mt-25 pr-4 pl-4"}>
             <div>
-                <div className={`${styles.bunContainer} mb-4`}>
+                <div className={`${styles.bunContainer} mb-4 pl-6 ml-8`}>
                     <ConstructorElement
                         type="top"
                         isLocked={true}
@@ -20,7 +20,7 @@ export const BurgerConstructor = ({ onOrderClick }: BurgerConstructorProps) => {
                     />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className={`${styles.ingredientsContainer} custom-scroll mb-4`}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className={`${styles.ingredientsContainer} custom-scroll mb-4 pl-6`}>
                     {testIngredients.map((ingredient, index) => (
                         <div key={index} className={`${styles.ingredientWrapper} mb-2`}>
                             <DragIcon type="primary" />
@@ -37,7 +37,7 @@ export const BurgerConstructor = ({ onOrderClick }: BurgerConstructorProps) => {
                     ))}
                 </div>
 
-                <div className={`${styles.bunContainer} mb-10`}>
+                <div className={`${styles.bunContainer} pl-6 ml-8`}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
@@ -48,9 +48,9 @@ export const BurgerConstructor = ({ onOrderClick }: BurgerConstructorProps) => {
                 </div>
             </div>
 
-            <div className={styles.footer}>
-                <div className={styles.priceContainer}>
-                    <span className="text text_type_digits-medium mr-2">{totalPrice}</span>
+            <div className={`${styles.footer} mt-10`}>
+                <div className={`${styles.priceContainer} mr-10`}>
+                    <span className="text text_type_digits-medium">{totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </div>
                 <Button
