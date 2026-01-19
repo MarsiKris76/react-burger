@@ -11,17 +11,17 @@ export const AppHeader = () => {
                         <span className="ml-2">Конструктор</span>
                     </div>
 
-                    <div className="pl-5 pr-5 pb-4 pt-4 ml-2">
-                        <ListIcon type="primary"/>
+                    <div className="text_color_inactive pl-5 pr-5 pb-4 pt-4 ml-2">
+                        <ListIcon type="secondary"/>
                         <span className="ml-2">Лента заказов</span>
                     </div>
                 </div>
                 <div className={styles.centerSection}>
                     <Logo />
                 </div>
-                <div className={styles.rightSection + " pl-5 pr-5 pb-4 pt-4 ml-2"}>
-                    <ProfileIcon type="primary" />
-                    <span className="ml-2">Личный кабинет</span>
+                <div className={styles.rightSection + " text_color_inactive pl-5 pr-5 pb-4 pt-4 ml-2"}>
+                    <ProfileIcon type="secondary" />
+                    <span>Личный кабинет</span>
                 </div>
             </nav>
         </header>

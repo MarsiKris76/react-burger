@@ -1,11 +1,64 @@
-import React from 'react';
-import './App.css';
-import {MainPage} from "./pages/MainPage";
+import {useEffect, useState} from 'react';
+import styles from './App.module.css';
+import {AppHeader} from "./components/app-header/AppHeader";
+import {BurgerIngredients} from "./components/burger-ingredients/BurgerIngredients";
+import {BurgerConstructor} from "./components/burger-constructor/BurgerConstructor";
+import {Ingredient} from "./types/Types";
+import {getIngredientsApi} from "./utils/BurgerApi";
+import {Modal} from "./components/modal/Modal";
+import {OrderDetails} from "./components/order-details/OrderDetails";
 
 function App() {
-  return (
-      <MainPage/>
-  );
+    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+
+    useEffect(() => {
+        getIngredientsApi()
+            .then((data) => {
+                setIngredients(data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, []);
+
+    const handleOrderClick = () => {
+        setIsOrderModalOpen(true);
+    };
+
+    const handleCloseOrderModal = () => {
+        setIsOrderModalOpen(false);
+    };
+
+    if (loading) {
+        return <p className="text text_type_main-large text_color_inactive mt-10">Загрузка...</p>;
+    }
+
+    if (error) {
+        console.error(error);
+        return <p className="text text_type_main-large text_color_error mt-10">Ошибка сетевого запроса</p>;
+    }
+
+    return (
+      <>
+        <AppHeader />
+        <main className={styles.main}>
+            <div className={styles.content}>
+                <BurgerIngredients ingredients={ingredients} />
+                <BurgerConstructor onOrderClick={handleOrderClick} />
+            </div>
+        </main>
+          {isOrderModalOpen && (
+              <Modal title="Детали заказа" onClose={handleCloseOrderModal}>
+                  <OrderDetails />
+              </Modal>
+          )}
+      </>
+    );
 }
 
 export default App;

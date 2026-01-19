@@ -1,0 +1,93 @@
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1C1C24;
+    border-radius: 30px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    width: 640px;
+    max-height: 90vh;
+    overflow: hidden;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px 32px 0 32px;
+}
+
+.title {
+    margin: 0;
+    color: #F2F2F3;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    padding: 32px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Стили для скроллбара */
+.content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: #1C1C24;
+    border-radius: 4px;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: #8585AD;
+    border-radius: 4px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background: #4C4CFF;
+}
+
+@media screen and (max-width: 768px) {
+    .modal {
+        width: 90%;
+        max-height: 80vh;
+    }
+
+    .header {
+        padding: 24px 24px 0 24px;
+    }
+
+    .content {
+        padding: 24px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .modal {
+        width: 95%;
+        max-height: 95vh;
+        border-radius: 15px;
+    }
+
+    .header {
+        padding: 20px 20px 0 20px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+}
