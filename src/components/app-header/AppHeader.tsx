@@ -3,7 +3,7 @@ import styles from './AppHeader.module.css';
 
 export const AppHeader = () => {
     return (
-        <header className={styles.header + " text text_type_main-default"}>
+        <header className={`${styles.header} text text_type_main-default`}>
             <nav className={styles.nav}>
                 <div className={styles.leftSection}>
                     <div className="pl-5 pr-5 pb-4 pt-4">
@@ -19,7 +19,7 @@ export const AppHeader = () => {
                 <div className={styles.centerSection}>
                     <Logo />
                 </div>
-                <div className={styles.rightSection + " text_color_inactive pl-5 pr-5 pb-4 pt-4 ml-2"}>
+                <div className={`${styles.rightSection} text_color_inactive pl-5 pr-5 pb-4 pt-4 ml-2`}>
                     <ProfileIcon type="secondary" />
                     <span>Личный кабинет</span>
                 </div>

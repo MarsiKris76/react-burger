@@ -8,7 +8,7 @@ export const BurgerConstructor = ({ onOrderClick }: BurgerConstructorProps) => {
     const totalPrice = testBun.price + testIngredients.reduce((sum, item) => sum + item.price, 0);
 
     return (
-        <section className={styles.section + " mt-25 pr-4 pl-4"}>
+        <section className={`${styles.section} mt-25 pr-4 pl-4`}>
             <div>
                 <div className={`${styles.bunContainer} mb-4 pl-6 ml-8`}>
                     <ConstructorElement
@@ -20,7 +20,7 @@ export const BurgerConstructor = ({ onOrderClick }: BurgerConstructorProps) => {
                     />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className={`${styles.ingredientsContainer} custom-scroll mb-4 pl-6`}>
+                <div className={`${styles.ingredientsContainer} custom-scroll mb-4 pl-6`}>
                     {testIngredients.map((ingredient, index) => (
                         <div key={index} className={`${styles.ingredientWrapper} mb-2`}>
                             <DragIcon type="primary" />

@@ -43,7 +43,7 @@ export const BurgerIngredients = ({ ingredients } : BurgerIngredientsProps) => {
     };
 
     return (
-        <section className={styles.section + " mr-10"}>
+        <section className={`${styles.section} + mr-10`}>
             <h2 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h2>
             <div className={styles.tabs}>
                 <Tab value="bun" active={currentTab === 'bun'} onClick={() => scrollToSection('bun')}>
