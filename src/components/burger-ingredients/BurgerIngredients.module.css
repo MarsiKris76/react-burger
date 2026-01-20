@@ -1,0 +1,64 @@
+.section {
+    width: 100%;
+}
+
+.tabs {
+    display: flex;
+}
+
+.scrollContainer {
+    height: calc(100vh - 300px); /* Высота минус заголовок и табы */
+    min-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    width: 12px;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+    background: linear-gradient(to bottom, #1C1C24 0%, #2A2A32 100%);
+    border: 1px solid #33333F;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #8585AD 0%, #4C4CFF 100%);
+    border: 1px solid #33333F;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #4C4CFF 0%, #6D6DFE 100%);
+}
+
+.scrollContainer::-webkit-scrollbar-button {
+    display: none;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 ингредиента в строке */
+    gap: 32px 24px;
+    align-items: start;
+}
+
+@media screen and (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .scrollContainer {
+        height: calc(100vh - 280px);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .grid {
+        gap: 16px;
+    }
+
+    .scrollContainer {
+        height: calc(100vh - 260px);
+    }
+}

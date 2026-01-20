@@ -2,6 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Установка зависимостей
+
+Для установки зависимостей необходимо использовать флаг "--legacy-peer-deps".
+
+### `npm --legacy-peer-deps i`
+
 ## Available Scripts
 
 In the project directory, you can run:
