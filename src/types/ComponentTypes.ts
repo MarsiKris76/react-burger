@@ -12,6 +12,7 @@ export type Ingredient = {
     calories: number;
     price: number;
     image: string;
+    counter: number;
     image_mobile?: string;
     image_large?: string;
     __v?: number;
@@ -50,4 +51,10 @@ export type ConstructorItemProps = {
     index: number;
     onRemove: (uuid: string) => void;
     moveItem: (dragIndex: number, hoverIndex: number) => void;
+}
+
+export type DragItem = {
+    ingredient: Ingredient;
+    index: number;
+    type: string;
 }

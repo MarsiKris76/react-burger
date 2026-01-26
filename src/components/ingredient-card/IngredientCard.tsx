@@ -1,4 +1,4 @@
-import {IngredientCardMiniProps} from "../../types/Types";
+import {IngredientCardMiniProps} from "../../types/ComponentTypes";
 import styles from './IngredientCard.module.css';
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 

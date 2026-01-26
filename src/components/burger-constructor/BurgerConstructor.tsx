@@ -1,6 +1,6 @@
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css';
-import {BurgerConstructorProps} from "../../types/Types";
+import {BurgerConstructorProps} from "../../types/ComponentTypes";
 import {testBun, testIngredients} from "../../utils/Data";
 
 export const BurgerConstructor = ({ onOrderClick }: BurgerConstructorProps) => {

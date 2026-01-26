@@ -1,4 +1,4 @@
-import {Ingredient} from "../types/Types";
+import {Ingredient} from "../types/ComponentTypes";
 
 export const testBun: Ingredient = {
     _id: 'test-bun-1',
@@ -11,7 +11,8 @@ export const testBun: Ingredient = {
     price: 1256,
     image: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
     image_large: 'https://code.s3.yandex.net/react/code/bun-02.png',
-    image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png'
+    image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+    counter: 0
 };
 
 export const testIngredients: Ingredient[] = [
@@ -26,7 +27,8 @@ export const testIngredients: Ingredient[] = [
         price: 15,
         image: 'https://code.s3.yandex.net/react/code/sauce-01-mobile.png',
         image_large: 'https://code.s3.yandex.net/react/code/sauce-01.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/sauce-01-mobile.png'
+        image_mobile: 'https://code.s3.yandex.net/react/code/sauce-01-mobile.png',
+        counter: 0
     },
     {
         _id: 'test-main-1',
@@ -39,7 +41,8 @@ export const testIngredients: Ingredient[] = [
         price: 988,
         image: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
         image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png'
+        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+        counter: 0
     },
     {
         _id: 'test-main-1',
@@ -52,7 +55,8 @@ export const testIngredients: Ingredient[] = [
         price: 988,
         image: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
         image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png'
+        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+        counter: 0
     },
     {
         _id: 'test-main-1',
@@ -65,7 +69,8 @@ export const testIngredients: Ingredient[] = [
         price: 988,
         image: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
         image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png'
+        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+        counter: 0
     },
     {
         _id: 'test-main-1',
@@ -78,7 +83,8 @@ export const testIngredients: Ingredient[] = [
         price: 988,
         image: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
         image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png'
+        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+        counter: 0
     },
     {
         _id: 'test-main-1',
@@ -91,7 +97,8 @@ export const testIngredients: Ingredient[] = [
         price: 988,
         image: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
         image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png'
+        image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+        counter: 0
     },
     {
         _id: 'test-sauce-2',
@@ -104,6 +111,7 @@ export const testIngredients: Ingredient[] = [
         price: 80,
         image: 'https://code.s3.yandex.net/react/code/sauce-03-mobile.png',
         image_large: 'https://code.s3.yandex.net/react/code/sauce-03.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/sauce-03-mobile.png'
+        image_mobile: 'https://code.s3.yandex.net/react/code/sauce-03-mobile.png',
+        counter: 0
     }
 ];

@@ -1,7 +1,7 @@
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useMemo, useRef, useState} from "react";
+import {useMemo, useRef, useState, useEffect} from "react";
 import styles from './BurgerIngredients.module.css';
-import {BurgerIngredientsProps, Ingredient, IngredientType} from "../../types/Types";
+import {BurgerIngredientsProps, Ingredient, IngredientType} from "../../types/ComponentTypes";
 import {Modal} from "../modal/Modal";
 import {IngredientDetails} from "../ingredient-details/IngredientDetails";
 import {IngredientCard} from "../ingredient-card/IngredientCard";
@@ -15,6 +15,37 @@ export const BurgerIngredients = ({ ingredients } : BurgerIngredientsProps) => {
     const bunRef = useRef<HTMLDivElement>(null);
     const sauceRef = useRef<HTMLDivElement>(null);
     const mainRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observerOptions: IntersectionObserverInit = {
+            root: containerRef.current,
+            rootMargin: '-20% 0px -80% 0px',
+            threshold: 0
+        };
+        const observerCallback: IntersectionObserverCallback = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    if (id === 'buns-section') {
+                        setCurrentTab('bun');
+                    } else if (id === 'sauces-section') {
+                        setCurrentTab('sauce');
+                    } else if (id === 'main-section') {
+                        setCurrentTab('main');
+                    }
+                }
+            });
+        };
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        if (bunRef.current) observer.observe(bunRef.current);
+        if (sauceRef.current) observer.observe(sauceRef.current);
+        if (mainRef.current) observer.observe(mainRef.current);
+        setCurrentTab('bun');
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     const categorizedIngredients = useMemo(() => {
         return ingredients.reduce((acc, ingredient: Ingredient) => {
@@ -57,8 +88,8 @@ export const BurgerIngredients = ({ ingredients } : BurgerIngredientsProps) => {
                 </Tab>
             </div>
 
-            <div className={styles.scrollContainer}>
-                <div ref={bunRef}>
+            <div ref={containerRef} className={styles.scrollContainer}>
+                <div ref={bunRef} id="buns-section">
                     <h3 className={sectionHeaderClassName}>Булки</h3>
                     <div className={styles.grid}>
                         {categorizedIngredients.bun?.map((ingredient) => (
@@ -66,7 +97,7 @@ export const BurgerIngredients = ({ ingredients } : BurgerIngredientsProps) => {
                         ))}
                     </div>
                 </div>
-                <div ref={sauceRef}>
+                <div ref={sauceRef} id="sauces-section">
                     <h3 className={sectionHeaderClassName}>Соусы</h3>
                     <div className={styles.grid}>
                         {categorizedIngredients.sauce?.map((ingredient) => (
@@ -74,7 +105,7 @@ export const BurgerIngredients = ({ ingredients } : BurgerIngredientsProps) => {
                         ))}
                     </div>
                 </div>
-                <div ref={mainRef}>
+                <div ref={mainRef} id="main-section">
                     <h3 className={sectionHeaderClassName}>Начинки</h3>
                     <div className={styles.grid}>
                         {categorizedIngredients.main?.map((ingredient) => (
