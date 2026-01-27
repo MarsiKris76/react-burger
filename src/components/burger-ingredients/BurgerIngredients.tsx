@@ -1,16 +1,20 @@
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useMemo, useRef, useState, useEffect} from "react";
 import styles from './BurgerIngredients.module.css';
-import {BurgerIngredientsProps, Ingredient, IngredientType} from "../../types/ComponentTypes";
+import {Ingredient, IngredientType} from "../../types/ComponentTypes";
 import {Modal} from "../modal/Modal";
 import {IngredientDetails} from "../ingredient-details/IngredientDetails";
 import {IngredientCard} from "../ingredient-card/IngredientCard";
+import {useDispatch, useSelector} from "react-redux";
+import {selectIngredients} from "../../services/RootReducer";
+import {clearCurrentIngredient, setCurrentIngredient} from "../../services/slices/ViewIngredientSlice";
 
 const sectionHeaderClassName = "text text_type_main-medium mb-6 mt-10";
 
-export const BurgerIngredients = ({ ingredients } : BurgerIngredientsProps) => {
+export const BurgerIngredients = () => {
+    const dispatch = useDispatch();
+    const { items: ingredients } = useSelector(selectIngredients);
     const [currentTab, setCurrentTab] = useState<IngredientType>('bun')
-    const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const bunRef = useRef<HTMLDivElement>(null);
     const sauceRef = useRef<HTMLDivElement>(null);
@@ -64,13 +68,13 @@ export const BurgerIngredients = ({ ingredients } : BurgerIngredientsProps) => {
     };
 
     const handleOpenDetailsModal = (ingredient: Ingredient) => {
-        setSelectedIngredient(ingredient);
+        dispatch(setCurrentIngredient(ingredient));
         setIsModalOpen(true);
     };
 
     const handleCloseModal = () => {
+        dispatch(clearCurrentIngredient());
         setIsModalOpen(false);
-        setSelectedIngredient(null);
     };
 
     return (
@@ -101,7 +105,11 @@ export const BurgerIngredients = ({ ingredients } : BurgerIngredientsProps) => {
                     <h3 className={sectionHeaderClassName}>Соусы</h3>
                     <div className={styles.grid}>
                         {categorizedIngredients.sauce?.map((ingredient) => (
-                            <IngredientCard key={ingredient._id} ingredient={ingredient} onClick={handleOpenDetailsModal}/>
+                            <IngredientCard
+                                key={ingredient._id}
+                                ingredient={ingredient}
+                                onClick={handleOpenDetailsModal}
+                            />
                         ))}
                     </div>
                 </div>
@@ -114,9 +122,9 @@ export const BurgerIngredients = ({ ingredients } : BurgerIngredientsProps) => {
                     </div>
                 </div>
             </div>
-            {isModalOpen && selectedIngredient && (
+            {isModalOpen && (
                 <Modal title="Детали ингредиента" onClose={handleCloseModal}>
-                    <IngredientDetails ingredient={selectedIngredient} />
+                    <IngredientDetails />
                 </Modal>
             )}
         </section>

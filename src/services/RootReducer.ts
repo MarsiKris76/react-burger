@@ -3,6 +3,7 @@ import ingredientsReducer from './slices/IngredientsSlice';
 import burgerConstructorReducer from './slices/BurgerConstructorSlice';
 import viewIngredientReducer from './slices/ViewIngredientSlice';
 import orderReducer from './slices/OrderSlice';
+import {RootState} from "../types/StoreTypes";
 
 const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
@@ -22,5 +23,9 @@ export const store = configureStore({
         }),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+
+export const selectIngredients = (state: RootState) => state.ingredients;
+export const selectBurgerConstructor = (state: RootState) => state.burgerConstructor;
+export const selectViewIngredient = (state: RootState) => state.viewIngredient;
+export const selectOrder = (state: RootState) => state.order;
+

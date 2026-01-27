@@ -20,16 +20,7 @@ export type Ingredient = {
 
 export type IngredientCardMiniProps = {
     ingredient: Ingredient;
-    count?: number;
     onClick: (ingredient: Ingredient) => void;
-}
-
-export type BurgerIngredientsProps = {
-    ingredients: Ingredient[];
-}
-
-export type IngredientDetailsProps = {
-    ingredient: Ingredient;
 }
 
 export type BurgerConstructorProps = {
@@ -50,7 +41,6 @@ export type ConstructorItemProps = {
     ingredient: Ingredient & { uuid: string };
     index: number;
     onRemove: (uuid: string) => void;
-    moveItem: (dragIndex: number, hoverIndex: number) => void;
 }
 
 export type DragItem = {

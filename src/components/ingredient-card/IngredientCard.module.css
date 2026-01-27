@@ -24,3 +24,7 @@
 .nameContainer {
     text-align: center;
 }
+
+.draggingItem {
+    opacity: 0.5;
+}

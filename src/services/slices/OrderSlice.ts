@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {sendOrderApi} from '../../utils/BurgerApi';
-import {OrderState} from "../../types/StoreTypes";
-import {RootState} from "../RootReducer";
+import {OrderState, RootState} from "../../types/StoreTypes";
 
 export const sendOrder = createAsyncThunk(
     'order/sendOrder',

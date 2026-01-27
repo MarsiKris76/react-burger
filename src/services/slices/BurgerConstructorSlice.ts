@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {BurgerConstructorState} from "../../types/StoreTypes";
 import {Ingredient} from "../../types/ComponentTypes";
+import { v4 as uuid } from 'uuid';
 
 const initialState: BurgerConstructorState = {
     bun: null,
@@ -18,7 +19,7 @@ export const burgerConstructorSlice = createSlice({
             } else {
                 state.ingredients.push({
                     ...ingredient,
-                    uuid: generateUUID()
+                    uuid: uuid()
                 });
             }
         },
@@ -42,14 +43,6 @@ export const burgerConstructorSlice = createSlice({
         },
     },
 });
-
-const generateUUID = (): string => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-};
 
 export const {
     addIngredient,

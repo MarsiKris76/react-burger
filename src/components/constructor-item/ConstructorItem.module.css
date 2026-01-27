@@ -1,0 +1,9 @@
+.content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.draggingItem {
+    opacity: 0.5;
+}

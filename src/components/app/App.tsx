@@ -3,32 +3,21 @@ import styles from './App.module.css';
 import {AppHeader} from "../app-header/AppHeader";
 import {BurgerIngredients} from "../burger-ingredients/BurgerIngredients";
 import {BurgerConstructor} from "../burger-constructor/BurgerConstructor";
-import {Ingredient} from "../../types/ComponentTypes";
-import {getIngredientsApi} from "../../utils/BurgerApi";
 import {Modal} from "../modal/Modal";
 import {OrderDetails} from "../order-details/OrderDetails";
-import {Provider} from "react-redux";
-import {store} from "../../services/RootReducer";
-import {DndProvider} from "react-dnd";
-import {HTML5Backend} from "react-dnd-html5-backend";
+import {useDispatch, useSelector} from "react-redux";
+import {selectIngredients} from "../../services/RootReducer";
+import {fetchIngredients} from "../../services/slices/IngredientsSlice";
+import {AppDispatch} from "../../types/StoreTypes";
 
 function App() {
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const dispatch: AppDispatch = useDispatch();
+    const { loading, error } = useSelector(selectIngredients);
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
     useEffect(() => {
-        getIngredientsApi()
-            .then((data) => {
-                setIngredients(data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err.message);
-                setLoading(false);
-            });
-    }, []);
+        dispatch(fetchIngredients());
+    }, [dispatch]);
 
     const handleOrderClick = () => {
         setIsOrderModalOpen(true);
@@ -48,22 +37,20 @@ function App() {
     }
 
     return (
-        <Provider store={store}>
-            <DndProvider backend={HTML5Backend}>
-                <AppHeader />
-                <main className={styles.main}>
-                    <div className={styles.content}>
-                        <BurgerIngredients ingredients={ingredients} />
-                        <BurgerConstructor onOrderClick={handleOrderClick} />
-                    </div>
-                </main>
-                  {isOrderModalOpen && (
-                      <Modal title="" onClose={handleCloseOrderModal}>
-                          <OrderDetails />
-                      </Modal>
-                  )}
-            </DndProvider>
-        </Provider>
+        <>
+            <AppHeader />
+            <main className={styles.main}>
+                <div className={styles.content}>
+                    <BurgerIngredients />
+                    <BurgerConstructor onOrderClick={handleOrderClick}/>
+                </div>
+            </main>
+              {isOrderModalOpen && (
+                  <Modal title="" onClose={handleCloseOrderModal}>
+                      <OrderDetails />
+                  </Modal>
+              )}
+        </>
     );
 }
 

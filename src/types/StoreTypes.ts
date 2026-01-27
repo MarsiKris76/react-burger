@@ -1,29 +1,8 @@
 import {Ingredient} from "./ComponentTypes";
+import {store} from "../services/RootReducer";
 
-export type StoreState = {
-    ingredients: {
-        items: Ingredient[];
-        loading: boolean;
-        error: string | null;
-    };
-    burgerConstructor: {
-        bun: Ingredient | null;
-        ingredients: (Ingredient & { uuid: string })[];
-    };
-    viewIngredient: Ingredient | null;
-    order: {
-        orderRequest: boolean;
-        orderSuccess: boolean;
-        order: {
-            name: string;
-            order: {
-                number: number;
-            };
-            success: boolean;
-        } | null;
-        error: string | null;
-    };
-}
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export type IngredientsState = {
     items: Ingredient[];

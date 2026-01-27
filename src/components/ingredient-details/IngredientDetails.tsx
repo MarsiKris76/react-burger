@@ -1,7 +1,18 @@
 import styles from './IngredientDetails.module.css';
-import {IngredientDetailsProps} from "../../types/ComponentTypes";
+import {useSelector} from "react-redux";
+import {selectViewIngredient} from "../../services/RootReducer";
 
-export const IngredientDetails = ({ ingredient }: IngredientDetailsProps) => {
+export const IngredientDetails = () => {
+    const ingredient = useSelector(selectViewIngredient);
+
+    if (!ingredient) {
+        return (
+            <div className={styles.container}>
+                <p className="text text_type_main-medium">Ингредиент не найден</p>
+            </div>
+        );
+    }
+
     return (
         <div className={styles.container}>
             <img

@@ -1,64 +1,135 @@
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import React, { useRef } from 'react';
+import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDrop } from 'react-dnd';
 import styles from './BurgerConstructor.module.css';
-import {BurgerConstructorProps} from "../../types/ComponentTypes";
-import {testBun, testIngredients} from "../../utils/Data";
+import {BurgerConstructorProps, Ingredient} from "../../types/ComponentTypes";
+import {useDispatch, useSelector} from "react-redux";
+import {decrementIngredientCounter, incrementIngredientCounter} from "../../services/slices/IngredientsSlice";
+import {ConstructorItem} from "../constructor-item/ConstructorItem";
+import {AppDispatch} from "../../types/StoreTypes";
+import {selectBurgerConstructor} from "../../services/RootReducer";
+import {addIngredient, removeIngredient, replaceBun} from "../../services/slices/BurgerConstructorSlice";
 
-export const BurgerConstructor = ({ onOrderClick }: BurgerConstructorProps) => {
+export const BurgerConstructor: React.FC<BurgerConstructorProps> = ( {onOrderClick} ) => {
+    const dispatch: AppDispatch = useDispatch();
+    const { bun, ingredients } = useSelector(selectBurgerConstructor);
+    const dropRef = useRef<HTMLDivElement>(null);
 
-    const totalPrice = testBun.price + testIngredients.reduce((sum, item) => sum + item.price, 0);
+    const handleAddIngredient = (ingredient: any) => {
+        if (ingredient.type === 'bun') {
+            dispatch(replaceBun(ingredient));
+        } else {
+            dispatch(addIngredient(ingredient));
+        }
+    };
+
+    const handleReplaceBun = (ingredient: any) => {
+        dispatch(replaceBun(ingredient));
+    };
+
+    const [{ isOver }, drop] = useDrop({
+        accept: 'ingredient',
+        drop: (item: { ingredient: Ingredient }) => {
+            if (item.ingredient.type === 'bun') {
+                if (bun && bun._id !== item.ingredient._id)
+                    dispatch(decrementIngredientCounter(bun._id));
+                handleReplaceBun(item.ingredient);
+                if (item.ingredient.counter < 1)
+                    dispatch(incrementIngredientCounter(item.ingredient._id));
+            } else {
+                handleAddIngredient(item.ingredient);
+                dispatch(incrementIngredientCounter(item.ingredient._id));
+            }
+        },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+        }),
+    });
+
+    React.useEffect(() => {
+        if (dropRef.current) {
+            drop(dropRef.current);
+        }
+    }, [drop]);
+
+    const calculateTotalPrice = () => {
+        const bunPrice = bun ? bun.price * 2 : 0;
+        const ingredientsPrice = ingredients.reduce(
+            (sum, item) => sum + item.price,
+            0
+        );
+        return bunPrice + ingredientsPrice;
+    };
+
+    const handleRemoveIngredient = (uuid: string) => {
+        const ingredientToRemove = ingredients.find(item => item.uuid === uuid);
+        if (ingredientToRemove) {
+            dispatch(decrementIngredientCounter(ingredientToRemove._id));
+            dispatch(removeIngredient(uuid));
+        }
+    };
+
+    const handleMakeOrder = () => {
+        if (!bun || ingredients.length === 0) {
+            alert('Добавьте булку и хотя бы одну начинку для оформления заказа');
+            return;
+        }
+        onOrderClick();
+    };
 
     return (
         <section className={`${styles.section} mt-25 pr-4 pl-4`}>
-            <div>
-                <div className={`${styles.bunContainer} mb-4 pl-6 ml-8`}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text={`${testBun.name} (верх)`}
-                        price={testBun.price}
-                        thumbnail={testBun.image}
-                    />
-                </div>
+            <div ref={dropRef} className={`${styles.dropZone} ${isOver ? styles.dropZoneActive : ''}`} >
+                {bun ? (
+                    <div className={`${styles.bunContainer} mb-4 pl-6 ml-8`}>
+                        <ConstructorElement
+                            type="top"
+                            isLocked={true}
+                            text={`${bun.name} (верх)`}
+                            price={bun.price}
+                            thumbnail={bun.image}
+                        />
+                    </div>
+                ) : (
+                    <div className={`${styles.emptySlot} mb-4 text text_type_main-default text_color_inactive pl-6 ml-8`}>
+                        Перетащите булку сюда
+                    </div>
+                )}
 
                 <div className={`${styles.ingredientsContainer} custom-scroll mb-4 pl-6`}>
-                    {testIngredients.map((ingredient, index) => (
-                        <div key={index} className={`${styles.ingredientWrapper} mb-2`}>
-                            <DragIcon type="primary" />
-                            <div key={index} className="mb-2">
-                                <ConstructorElement
-                                    isLocked={false}
-                                    text={ingredient.name}
-                                    price={ingredient.price}
-                                    thumbnail={ingredient.image}
-                                    handleClose={() => console.log('Remove ingredient')}
-                                />
-                            </div>
-                        </div>
+                    {ingredients.map((ingredient, index) => (
+                        <ConstructorItem
+                            key={ingredient.uuid}
+                            ingredient={ingredient}
+                            index={index}
+                            onRemove={handleRemoveIngredient}
+                        />
                     ))}
                 </div>
 
-                <div className={`${styles.bunContainer} pl-6 ml-8`}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text={`${testBun.name} (низ)`}
-                        price={testBun.price}
-                        thumbnail={testBun.image}
-                    />
-                </div>
+                {bun ? (
+                    <div className={`${styles.bunContainer} mb-10 pl-6 ml-8`}>
+                        <ConstructorElement
+                            type="bottom"
+                            isLocked={true}
+                            text={`${bun.name} (низ)`}
+                            price={bun.price}
+                            thumbnail={bun.image}
+                        />
+                    </div>
+                ) : (
+                    <div className={`${styles.emptySlot} mb-10 text text_type_main-default text_color_inactive pl-6 ml-8`}>
+                        Перетащите булку сюда
+                    </div>
+                )}
             </div>
 
             <div className={`${styles.footer} mt-10`}>
                 <div className={`${styles.priceContainer} mr-10`}>
-                    <span className="text text_type_digits-medium">{totalPrice}</span>
+                    <span className="text text_type_digits-medium">{calculateTotalPrice()}</span>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button
-                    htmlType="button"
-                    type="primary"
-                    size="large"
-                    onClick={onOrderClick}
-                >
+                <Button htmlType="button" type="primary" size="large" onClick={handleMakeOrder} >
                     Оформить заказ
                 </Button>
             </div>
