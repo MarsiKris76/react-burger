@@ -9,7 +9,7 @@ export const sendOrder = createAsyncThunk(
             const state = (getState() as RootState);
             const { bun, ingredients } = state.burgerConstructor;
             if (!bun) {
-                throw new Error('Нужно выбрать булку');
+                return rejectWithValue('Нужно выбрать булку');
             }
             const ingredientsIds = [
                 bun._id,

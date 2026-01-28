@@ -10,22 +10,10 @@ import {AppDispatch} from "../../types/StoreTypes";
 import {selectBurgerConstructor} from "../../services/RootReducer";
 import {addIngredient, removeIngredient, replaceBun} from "../../services/slices/BurgerConstructorSlice";
 
-export const BurgerConstructor: React.FC<BurgerConstructorProps> = ( {onOrderClick} ) => {
+export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderClick } ) => {
     const dispatch: AppDispatch = useDispatch();
     const { bun, ingredients } = useSelector(selectBurgerConstructor);
     const dropRef = useRef<HTMLDivElement>(null);
-
-    const handleAddIngredient = (ingredient: any) => {
-        if (ingredient.type === 'bun') {
-            dispatch(replaceBun(ingredient));
-        } else {
-            dispatch(addIngredient(ingredient));
-        }
-    };
-
-    const handleReplaceBun = (ingredient: any) => {
-        dispatch(replaceBun(ingredient));
-    };
 
     const [{ isOver }, drop] = useDrop({
         accept: 'ingredient',
@@ -33,11 +21,11 @@ export const BurgerConstructor: React.FC<BurgerConstructorProps> = ( {onOrderCli
             if (item.ingredient.type === 'bun') {
                 if (bun && bun._id !== item.ingredient._id)
                     dispatch(decrementIngredientCounter(bun._id));
-                handleReplaceBun(item.ingredient);
                 if (item.ingredient.counter < 1)
                     dispatch(incrementIngredientCounter(item.ingredient._id));
+                dispatch(replaceBun(item.ingredient));
             } else {
-                handleAddIngredient(item.ingredient);
+                dispatch(addIngredient(item.ingredient));
                 dispatch(incrementIngredientCounter(item.ingredient._id));
             }
         },
@@ -52,14 +40,11 @@ export const BurgerConstructor: React.FC<BurgerConstructorProps> = ( {onOrderCli
         }
     }, [drop]);
 
-    const calculateTotalPrice = () => {
+    const totalPrice = React.useMemo(() => {
         const bunPrice = bun ? bun.price * 2 : 0;
-        const ingredientsPrice = ingredients.reduce(
-            (sum, item) => sum + item.price,
-            0
-        );
+        const ingredientsPrice = ingredients.reduce((sum, item) => sum + item.price, 0);
         return bunPrice + ingredientsPrice;
-    };
+    }, [bun, ingredients]);
 
     const handleRemoveIngredient = (uuid: string) => {
         const ingredientToRemove = ingredients.find(item => item.uuid === uuid);
@@ -126,7 +111,7 @@ export const BurgerConstructor: React.FC<BurgerConstructorProps> = ( {onOrderCli
 
             <div className={`${styles.footer} mt-10`}>
                 <div className={`${styles.priceContainer} mr-10`}>
-                    <span className="text text_type_digits-medium">{calculateTotalPrice()}</span>
+                    <span className="text text_type_digits-medium">{totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </div>
                 <Button htmlType="button" type="primary" size="large" onClick={handleMakeOrder} >

@@ -7,17 +7,9 @@ import {moveIngredient} from "../../services/slices/BurgerConstructorSlice";
 import {useDispatch} from "react-redux";
 
 
-export const ConstructorItem: React.FC<ConstructorItemProps> = ({
-                                                                     ingredient,
-                                                                     index,
-                                                                     onRemove
-                                                                 }) => {
+export const ConstructorItem: React.FC<ConstructorItemProps> = ({ ingredient, index, onRemove }) => {
     const ref = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
-
-    const handleMoveItem = (from: number, to: number) => {
-        dispatch(moveIngredient({ from, to }));
-    };
 
     const [{ isDragging }, drag] = useDrag({
         type: 'constructor-item',
@@ -31,21 +23,17 @@ export const ConstructorItem: React.FC<ConstructorItemProps> = ({
         accept: 'constructor-item',
         hover: (draggedItem: IConstructorItemDragObject, monitor) => {
             if (!ref.current) return;
-
             const dragIndex = draggedItem.index;
             const hoverIndex = index;
-
             if (dragIndex === hoverIndex) return;
-
             const hoverBoundingRect = ref.current.getBoundingClientRect();
-            const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
             const clientOffset = monitor.getClientOffset();
-            const hoverClientX = clientOffset!.x - hoverBoundingRect.left;
-
-            if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) return;
-            if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) return;
-
-            handleMoveItem(dragIndex, hoverIndex);
+            if (!clientOffset) return;
+            const hoverClientY = clientOffset.y;
+            const isOverTop = hoverClientY < hoverBoundingRect.top;
+            const isOverBottom = hoverClientY > hoverBoundingRect.bottom;
+            if (isOverTop || isOverBottom) return;
+            dispatch(moveIngredient({ from: dragIndex, to: hoverIndex }));
             draggedItem.index = hoverIndex;
         },
     });
@@ -55,7 +43,7 @@ export const ConstructorItem: React.FC<ConstructorItemProps> = ({
     return (
         <div ref={ref} className={`mb-2 ${isDragging ? styles.draggingItem : ''}`}>
             <div className={styles.content} >
-                <DragIcon type="primary" />
+                <DragIcon type="primary" className={styles.dragIcon}/>
                 <ConstructorElement
                     isLocked={false}
                     text={ingredient.name}

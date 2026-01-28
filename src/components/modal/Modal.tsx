@@ -31,11 +31,7 @@ export const Modal = ({ title, onClose, children }: ModalProps) => {
             <div className={styles.modal}>
                 <div className={styles.header}>
                     <h2 className={`text text_type_main-large ${styles.title}`}>{title}</h2>
-                    <button
-                        className={styles.closeButton}
-                        onClick={onClose}
-                        aria-label="Закрыть модальное окно"
-                    >
+                    <button className={styles.closeButton} onClick={onClose} aria-label="Закрыть модальное окно" >
                         <CloseIcon type="primary" />
                     </button>
                 </div>

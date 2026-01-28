@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectIngredients} from "../../services/RootReducer";
 import {fetchIngredients} from "../../services/slices/IngredientsSlice";
 import {AppDispatch} from "../../types/StoreTypes";
+import {resetOrder, sendOrder} from "../../services/slices/OrderSlice";
 
 function App() {
     const dispatch: AppDispatch = useDispatch();
@@ -20,11 +21,13 @@ function App() {
     }, [dispatch]);
 
     const handleOrderClick = () => {
+        dispatch(sendOrder());
         setIsOrderModalOpen(true);
     };
 
     const handleCloseOrderModal = () => {
         setIsOrderModalOpen(false);
+        dispatch(resetOrder());
     };
 
     if (loading) {

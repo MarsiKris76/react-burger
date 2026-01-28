@@ -1,13 +1,40 @@
 import React from 'react';
 import styles from './OrderDetails.module.css';
+import {useSelector} from "react-redux";
+import {selectOrder} from "../../services/RootReducer";
 
 export const OrderDetails: React.FC = () => {
-    const orderNumber = Math.floor(100000 + Math.random() * 900000); // Тестовый номер заказа
+    const { order, orderRequest, error } = useSelector(selectOrder);
+
+    if (orderRequest) {
+        return (
+            <div className={styles.container}>
+                <p className="text text_type_main-medium">Загрузка...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        console.error(error);
+        return (
+            <div className={styles.container}>
+                <p className="text text_type_main-medium text_color_error">Ошибка оформления заказа</p>
+            </div>
+        );
+    }
+
+    if (!order) {
+        return (
+            <div className={styles.container}>
+                <p className="text text_type_main-medium">Заказ не найден</p>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.orderNumber}>
-                <span className="text text_type_digits-large">{orderNumber}</span>
+                <span className="text text_type_digits-large">{order.order.number}</span>
             </div>
 
             <p className="text text_type_main-medium mt-8">идентификатор заказа</p>
