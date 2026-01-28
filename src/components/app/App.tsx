@@ -5,15 +5,13 @@ import {BurgerIngredients} from "../burger-ingredients/BurgerIngredients";
 import {BurgerConstructor} from "../burger-constructor/BurgerConstructor";
 import {Modal} from "../modal/Modal";
 import {OrderDetails} from "../order-details/OrderDetails";
-import {useDispatch, useSelector} from "react-redux";
-import {selectIngredients} from "../../services/RootReducer";
+import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {fetchIngredients} from "../../services/slices/IngredientsSlice";
-import {AppDispatch} from "../../types/StoreTypes";
 import {resetOrder, sendOrder} from "../../services/slices/OrderSlice";
 
 function App() {
-    const dispatch: AppDispatch = useDispatch();
-    const { loading, error } = useSelector(selectIngredients);
+    const dispatch = useAppDispatch();
+    const { loading, error } = useAppSelector(selectIngredients);
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
     useEffect(() => {

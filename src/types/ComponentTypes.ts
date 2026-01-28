@@ -42,9 +42,3 @@ export type ConstructorItemProps = {
     index: number;
     onRemove: (uuid: string) => void;
 }
-
-export type DragItem = {
-    ingredient: Ingredient;
-    index: number;
-    type: string;
-}

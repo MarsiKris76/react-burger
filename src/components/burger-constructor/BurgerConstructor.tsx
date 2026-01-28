@@ -3,16 +3,14 @@ import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-de
 import { useDrop } from 'react-dnd';
 import styles from './BurgerConstructor.module.css';
 import {BurgerConstructorProps, Ingredient} from "../../types/ComponentTypes";
-import {useDispatch, useSelector} from "react-redux";
 import {decrementIngredientCounter, incrementIngredientCounter} from "../../services/slices/IngredientsSlice";
 import {ConstructorItem} from "../constructor-item/ConstructorItem";
-import {AppDispatch} from "../../types/StoreTypes";
-import {selectBurgerConstructor} from "../../services/RootReducer";
+import {selectBurgerConstructor, useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {addIngredient, removeIngredient, replaceBun} from "../../services/slices/BurgerConstructorSlice";
 
 export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderClick } ) => {
-    const dispatch: AppDispatch = useDispatch();
-    const { bun, ingredients } = useSelector(selectBurgerConstructor);
+    const dispatch = useAppDispatch();
+    const { bun, ingredients } = useAppSelector(selectBurgerConstructor);
     const dropRef = useRef<HTMLDivElement>(null);
 
     const [{ isOver }, drop] = useDrop({

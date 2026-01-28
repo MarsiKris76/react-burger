@@ -5,15 +5,14 @@ import {Ingredient, IngredientType} from "../../types/ComponentTypes";
 import {Modal} from "../modal/Modal";
 import {IngredientDetails} from "../ingredient-details/IngredientDetails";
 import {IngredientCard} from "../ingredient-card/IngredientCard";
-import {useDispatch, useSelector} from "react-redux";
-import {selectIngredients} from "../../services/RootReducer";
+import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {clearCurrentIngredient, setCurrentIngredient} from "../../services/slices/ViewIngredientSlice";
 
 const sectionHeaderClassName = "text text_type_main-medium mb-6 mt-10";
 
 export const BurgerIngredients = () => {
-    const dispatch = useDispatch();
-    const { items: ingredients } = useSelector(selectIngredients);
+    const dispatch = useAppDispatch();
+    const { items: ingredients } = useAppSelector(selectIngredients);
     const [currentTab, setCurrentTab] = useState<IngredientType>('bun')
     const [isModalOpen, setIsModalOpen] = useState(false);
     const bunRef = useRef<HTMLDivElement>(null);

@@ -1,9 +1,8 @@
 import styles from './IngredientDetails.module.css';
-import {useSelector} from "react-redux";
-import {selectViewIngredient} from "../../services/RootReducer";
+import {selectViewIngredient, useAppSelector} from "../../services/RootReducer";
 
 export const IngredientDetails = () => {
-    const ingredient = useSelector(selectViewIngredient);
+    const ingredient = useAppSelector(selectViewIngredient);
 
     if (!ingredient) {
         return (

@@ -4,12 +4,12 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import { useDrag, useDrop } from 'react-dnd';
 import {ConstructorItemProps} from "../../types/ComponentTypes";
 import {moveIngredient} from "../../services/slices/BurgerConstructorSlice";
-import {useDispatch} from "react-redux";
+import {useAppDispatch} from "../../services/RootReducer";
 
 
 export const ConstructorItem: React.FC<ConstructorItemProps> = ({ ingredient, index, onRemove }) => {
     const ref = useRef<HTMLDivElement>(null);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const [{ isDragging }, drag] = useDrag({
         type: 'constructor-item',

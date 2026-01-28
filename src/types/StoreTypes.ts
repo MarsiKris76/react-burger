@@ -12,8 +12,10 @@ export type IngredientsState = {
 
 export type BurgerConstructorState = {
     bun: Ingredient | null;
-    ingredients: (Ingredient & { uuid: string })[];
+    ingredients: ConstructorIngredient[];
 }
+
+export type ConstructorIngredient = Ingredient & { uuid: string };
 
 export type OrderState = {
     orderRequest: boolean;
