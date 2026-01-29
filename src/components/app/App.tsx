@@ -8,6 +8,7 @@ import {OrderDetails} from "../order-details/OrderDetails";
 import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {fetchIngredients} from "../../services/slices/IngredientsSlice";
 import {resetOrder, sendOrder} from "../../services/slices/OrderSlice";
+import {resetConstructor} from "../../services/slices/BurgerConstructorSlice";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ function App() {
     const handleCloseOrderModal = () => {
         setIsOrderModalOpen(false);
         dispatch(resetOrder());
+        dispatch(resetConstructor());
     };
 
     if (loading) {

@@ -108,14 +108,26 @@ export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderCli
             </div>
 
             <div className={`${styles.footer} mt-10`}>
+                <div className={`${styles.tip} text text_type_main-small`}>
+                    {(!bun && ingredients.length === 0) && 'Добавьте булку и начинку'}
+                    {!bun && ingredients.length > 0 && 'Выберите булку'}
+                    {bun && ingredients.length === 0 && 'Добавьте начинку'}
+                </div>
                 <div className={`${styles.priceContainer} mr-10`}>
                     <span className="text text_type_digits-medium">{totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button htmlType="button" type="primary" size="large" onClick={handleMakeOrder} >
+                <Button
+                    htmlType="button"
+                    type="primary"
+                    size="large"
+                    onClick={handleMakeOrder}
+                    disabled={!bun || ingredients.length === 0} >
                     Оформить заказ
                 </Button>
+
             </div>
+
         </section>
     );
 };
