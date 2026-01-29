@@ -3,35 +3,31 @@ import styles from './App.module.css';
 import {AppHeader} from "../app-header/AppHeader";
 import {BurgerIngredients} from "../burger-ingredients/BurgerIngredients";
 import {BurgerConstructor} from "../burger-constructor/BurgerConstructor";
-import {Ingredient} from "../../types/Types";
-import {getIngredientsApi} from "../../utils/BurgerApi";
 import {Modal} from "../modal/Modal";
 import {OrderDetails} from "../order-details/OrderDetails";
+import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {fetchIngredients} from "../../services/slices/IngredientsSlice";
+import {resetOrder, sendOrder} from "../../services/slices/OrderSlice";
+import {resetConstructor} from "../../services/slices/BurgerConstructorSlice";
 
 function App() {
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const dispatch = useAppDispatch();
+    const { loading, error } = useAppSelector(selectIngredients);
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
     useEffect(() => {
-        getIngredientsApi()
-            .then((data) => {
-                setIngredients(data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err.message);
-                setLoading(false);
-            });
-    }, []);
+        dispatch(fetchIngredients());
+    }, [dispatch]);
 
     const handleOrderClick = () => {
+        dispatch(sendOrder());
         setIsOrderModalOpen(true);
     };
 
     const handleCloseOrderModal = () => {
         setIsOrderModalOpen(false);
+        dispatch(resetOrder());
+        dispatch(resetConstructor());
     };
 
     if (loading) {
@@ -44,20 +40,20 @@ function App() {
     }
 
     return (
-      <>
-        <AppHeader />
-        <main className={styles.main}>
-            <div className={styles.content}>
-                <BurgerIngredients ingredients={ingredients} />
-                <BurgerConstructor onOrderClick={handleOrderClick} />
-            </div>
-        </main>
-          {isOrderModalOpen && (
-              <Modal title="" onClose={handleCloseOrderModal}>
-                  <OrderDetails />
-              </Modal>
-          )}
-      </>
+        <>
+            <AppHeader />
+            <main className={styles.main}>
+                <div className={styles.content}>
+                    <BurgerIngredients />
+                    <BurgerConstructor onOrderClick={handleOrderClick}/>
+                </div>
+            </main>
+              {isOrderModalOpen && (
+                  <Modal title="" onClose={handleCloseOrderModal}>
+                      <OrderDetails />
+                  </Modal>
+              )}
+        </>
     );
 }
 

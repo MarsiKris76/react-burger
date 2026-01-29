@@ -1,7 +1,17 @@
 import styles from './IngredientDetails.module.css';
-import {IngredientDetailsProps} from "../../types/Types";
+import {selectViewIngredient, useAppSelector} from "../../services/RootReducer";
 
-export const IngredientDetails = ({ ingredient }: IngredientDetailsProps) => {
+export const IngredientDetails = () => {
+    const ingredient = useAppSelector(selectViewIngredient);
+
+    if (!ingredient) {
+        return (
+            <div className={styles.container}>
+                <p className="text text_type_main-medium">Ингредиент не найден</p>
+            </div>
+        );
+    }
+
     return (
         <div className={styles.container}>
             <img
