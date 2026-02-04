@@ -12,6 +12,7 @@ export type Ingredient = {
     calories: number;
     price: number;
     image: string;
+    counter: number;
     image_mobile?: string;
     image_large?: string;
     __v?: number;
@@ -19,16 +20,7 @@ export type Ingredient = {
 
 export type IngredientCardMiniProps = {
     ingredient: Ingredient;
-    count?: number;
     onClick: (ingredient: Ingredient) => void;
-}
-
-export type BurgerIngredientsProps = {
-    ingredients: Ingredient[];
-}
-
-export type IngredientDetailsProps = {
-    ingredient: Ingredient;
 }
 
 export type BurgerConstructorProps = {
@@ -49,5 +41,4 @@ export type ConstructorItemProps = {
     ingredient: Ingredient & { uuid: string };
     index: number;
     onRemove: (uuid: string) => void;
-    moveItem: (dragIndex: number, hoverIndex: number) => void;
 }

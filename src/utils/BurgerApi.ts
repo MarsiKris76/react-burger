@@ -1,17 +1,14 @@
-import {Ingredient} from "../types/Types";
-
-
-const BASE_URL = 'https://norma.education-services.ru/api';
+import {Ingredient} from "../types/ComponentTypes";
+import {request} from "./Request";
 
 export const getIngredientsApi = async (): Promise<Ingredient[]> => {
-    const res = await fetch(`${BASE_URL}/ingredients`);
-    if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || `Ошибка ${res.status}`);
-    }
-    const data = await res.json();
-    if (!data.success) {
-        throw new  Error(data.message || 'Неизвестная ошибка');
-    }
-    return data.data as Ingredient[];
+    const response = await request<{ data: Ingredient[]; success: boolean }>('/ingredients');
+    return response.data;
+};
+
+export const sendOrderApi = async (ingredientsIds: string[]): Promise<any> => {
+    return request('/orders', {
+        method: 'POST',
+        body: JSON.stringify({ ingredients: ingredientsIds }),
+    });
 };

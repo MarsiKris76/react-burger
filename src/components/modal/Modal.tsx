@@ -3,7 +3,7 @@ import { useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './Modal.module.css';
-import {ModalProps} from "../../types/Types";
+import {ModalProps} from "../../types/ComponentTypes";
 import {ModalOverlay} from "../modal-overlay/ModalOverlay";
 
 export const Modal = ({ title, onClose, children }: ModalProps) => {
@@ -31,11 +31,7 @@ export const Modal = ({ title, onClose, children }: ModalProps) => {
             <div className={styles.modal}>
                 <div className={styles.header}>
                     <h2 className={`text text_type_main-large ${styles.title}`}>{title}</h2>
-                    <button
-                        className={styles.closeButton}
-                        onClick={onClose}
-                        aria-label="Закрыть модальное окно"
-                    >
+                    <button className={styles.closeButton} onClick={onClose} aria-label="Закрыть модальное окно" >
                         <CloseIcon type="primary" />
                     </button>
                 </div>
