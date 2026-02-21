@@ -3,6 +3,7 @@ import ingredientsReducer from './slices/IngredientsSlice';
 import burgerConstructorReducer from './slices/BurgerConstructorSlice';
 import viewIngredientReducer from './slices/ViewIngredientSlice';
 import orderReducer from './slices/OrderSlice';
+import userReducer from './slices/UserSlice';
 import {AppDispatch, RootState} from "../types/StoreTypes";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     burgerConstructor: burgerConstructorReducer,
     viewIngredient: viewIngredientReducer,
     order: orderReducer,
+    user: userReducer
 });
 
 export const store = configureStore({
@@ -30,4 +32,5 @@ export const selectIngredients = (state: RootState) => state.ingredients;
 export const selectBurgerConstructor = (state: RootState) => state.burgerConstructor;
 export const selectViewIngredient = (state: RootState) => state.viewIngredient;
 export const selectOrder = (state: RootState) => state.order;
+export const selectUser = (state: RootState) => state.user;
 

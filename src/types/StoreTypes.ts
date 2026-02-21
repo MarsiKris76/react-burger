@@ -29,3 +29,17 @@ export type OrderState = {
     } | null;
     error: string | null;
 }
+
+export type User = {
+    name: string;
+    email: string;
+}
+
+export type UserState = {
+    user: User | null;
+    isAuthChecked: boolean;
+    authError: string | null;
+    isUpdating: boolean;
+    isLoggingIn: boolean;
+    isRegistering: boolean;
+};

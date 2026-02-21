@@ -1,0 +1,8 @@
+
+export const IngredientDetailsPage = () => {
+    return (
+        <>
+
+        </>
+    );
+}

@@ -42,3 +42,8 @@ export type ConstructorItemProps = {
     index: number;
     onRemove: (uuid: string) => void;
 }
+
+export type ProtectedRouteProps = {
+    children: React.ReactNode;
+    onlyUnAuth?: boolean;
+}
