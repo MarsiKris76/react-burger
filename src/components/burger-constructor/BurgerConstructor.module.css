@@ -6,6 +6,11 @@
 .bunContainer {
     display: flex;
     justify-content: center;
+
+}
+
+.emptySlot {
+    min-height: 80px;
 }
 
 .ingredientWrapper {
@@ -16,7 +21,7 @@
 
 .ingredientsContainer {
     height: calc(100vh - 550px);
-    min-height: 400px;
+    min-height: 320px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;

@@ -1,0 +1,58 @@
+.profileContainer {
+    display: flex;
+    margin: auto;
+}
+
+.sidebar {
+    flex: 1 1 33%;
+    min-width: 320px;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    flex: 1 1 33%;
+}
+.spacer {
+    flex: 1 1 33%;
+}
+
+.menuList {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menuLink, .logoutButton {
+    color: #8585AD;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menuLink:hover, .logoutButton:hover {
+    color: #F2F2F3;
+}
+
+.active {
+    color: #F2F2F3;
+}
+
+li {
+    min-height: 70px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .profileContainer {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+    }
+}

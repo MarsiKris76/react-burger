@@ -5,7 +5,7 @@ import {BurgerConstructor} from "../../components/burger-constructor/BurgerConst
 import {Modal} from "../../components/modal/Modal";
 import {OrderDetails} from "../../components/order-details/OrderDetails";
 import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
-import {fetchIngredients} from "../../services/slices/IngredientsSlice";
+import {fetchIngredients, resetIngredientsCounter} from "../../services/slices/IngredientsSlice";
 import {resetOrder, sendOrder} from "../../services/slices/OrderSlice";
 import {resetConstructor} from "../../services/slices/BurgerConstructorSlice";
 
@@ -27,6 +27,7 @@ export const MainPage = () => {
         setIsOrderModalOpen(false);
         dispatch(resetOrder());
         dispatch(resetConstructor());
+        dispatch(resetIngredientsCounter());
     };
 
     if (loading) {

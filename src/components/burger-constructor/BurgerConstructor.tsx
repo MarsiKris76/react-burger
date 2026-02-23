@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDrop } from 'react-dnd';
+import {useEffect, useMemo, useRef} from 'react';
+import {Button, ConstructorElement, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import {useDrop} from 'react-dnd';
 import styles from './BurgerConstructor.module.css';
 import {BurgerConstructorProps, Ingredient} from "../../types/ComponentTypes";
 import {decrementIngredientCounter, incrementIngredientCounter} from "../../services/slices/IngredientsSlice";
@@ -32,13 +32,13 @@ export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderCli
         }),
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (dropRef.current) {
             drop(dropRef.current);
         }
     }, [drop]);
 
-    const totalPrice = React.useMemo(() => {
+    const totalPrice = useMemo(() => {
         const bunPrice = bun ? bun.price * 2 : 0;
         const ingredientsPrice = ingredients.reduce((sum, item) => sum + item.price, 0);
         return bunPrice + ingredientsPrice;
@@ -62,7 +62,7 @@ export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderCli
 
     return (
         <section className={`${styles.section} mt-25 pr-4 pl-4`}>
-            <div ref={dropRef} className={`${styles.dropZone} ${isOver ? styles.dropZoneActive : ''}`} >
+            <div ref={dropRef} className={`${isOver ? styles.dropZoneActive : ''}`} >
                 {bun ? (
                     <div className={`${styles.bunContainer} mb-4 pl-6 ml-8`}>
                         <ConstructorElement
