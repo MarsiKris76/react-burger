@@ -1,5 +1,11 @@
 import {User} from "./StoreTypes";
 
+export type RequestOptions = {
+    method?: string;
+    headers?: HeadersInit;
+    body?: string;
+}
+
 export type UserResponse = {
     success: boolean;
     user: User;

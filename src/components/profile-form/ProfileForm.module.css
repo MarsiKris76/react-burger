@@ -2,6 +2,8 @@
     max-width: 480px;
 }
 
-.form2 {
-  display: none;
+.buttonGroup {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
 }

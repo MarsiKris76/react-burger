@@ -1,17 +1,17 @@
 import styles from '../login/LoginPage.module.css';
-import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {Input, Button, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components';
 import {resetPassword} from "../../utils/UserApi";
+import {useForm} from "../../hooks/useForm";
+import {FormEvent} from "react";
 
 export const ResetPasswordPage = () => {
-    const [password, setPassword] = useState('');
-    const [token, setToken] = useState('');
+    const { values, handleChange } = useForm({ password: '', token: '' });
     const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        resetPassword({ password, token }).then(() => {
+        resetPassword(values).then(() => {
                 navigate('/login');
             }).catch(() => {});
     };
@@ -21,16 +21,18 @@ export const ResetPasswordPage = () => {
             <form onSubmit={handleSubmit} className={styles.form}>
                 <h2 className="text text_type_main-medium mb-6">Восстановление пароля</h2>
                 <PasswordInput
-                    value={password}
+                    name={'password'}
+                    value={values.password}
                     placeholder="Введите новый пароль"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleChange}
                     extraClass="mb-6"
                 />
                 <Input
+                    name={'token'}
                     type="text"
                     placeholder="Введите код из письма"
-                    value={token}
-                    onChange={(e) => setToken(e.target.value)}
+                    value={values.token}
+                    onChange={handleChange}
                     error={false}
                     errorText="Ошибка"
                     size="default"
@@ -43,7 +45,7 @@ export const ResetPasswordPage = () => {
                     htmlType="submit"
                     type="primary"
                     size="medium"
-                    disabled={!password || !token}
+                    disabled={!values.password || !values.token}
                 >
                     Сохранить
                 </Button>

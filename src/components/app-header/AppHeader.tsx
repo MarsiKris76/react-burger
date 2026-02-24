@@ -1,6 +1,5 @@
-import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './AppHeader.module.css';
-import React from "react";
+import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, useLocation} from "react-router-dom";
 
 export const AppHeader = () => {

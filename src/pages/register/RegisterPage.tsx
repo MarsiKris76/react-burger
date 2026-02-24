@@ -1,20 +1,19 @@
 import styles from '../login/LoginPage.module.css';
-import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {Input, Button, PasswordInput, EmailInput} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useAppDispatch} from "../../services/RootReducer";
 import {registerUser} from "../../services/slices/UserSlice";
+import {useForm} from "../../hooks/useForm";
+import {FormEvent} from "react";
 
 export const RegisterPage = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { values, handleChange } = useForm({ name: '', email: '', password: '' });
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        dispatch(registerUser({ name, email, password })).then(() => {
+        dispatch(registerUser(values)).then(() => {
             navigate('/');
         });
     };
@@ -26,8 +25,9 @@ export const RegisterPage = () => {
                 <Input
                     type="text"
                     placeholder="Имя"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
                     error={false}
                     errorText="Ошибка"
                     size="default"
@@ -37,22 +37,24 @@ export const RegisterPage = () => {
                 />
                 <EmailInput
                     placeholder="E-mail"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
                     errorText="Ошибка"
                     size="default"
                     extraClass="mb-6"
                 />
                 <PasswordInput
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
                     extraClass="mb-6"
                 />
                 <Button
                     htmlType="submit"
                     type="primary"
                     size="medium"
-                    disabled={!name || !email || !password}
+                    disabled={!values.name || !values.email || !values.password}
                 >
                     Зарегистрироваться
                 </Button>

@@ -1,8 +1,6 @@
-type RequestOptions = {
-    method?: string;
-    headers?: HeadersInit;
-    body?: string;
-}
+import {refreshToken} from "./UserApi";
+import {getTokens, removeTokens} from "./Utils";
+import {RequestOptions} from "../types/ApiTypes";
 
 export const request = async <T>(endpoint: string, options?: RequestOptions): Promise<T> => {
     const BASE_URL = 'https://norma.education-services.ru/api';
@@ -15,7 +13,21 @@ export const request = async <T>(endpoint: string, options?: RequestOptions): Pr
         },
         ...(options?.body && { body: options.body }),
     };
-    const response = await fetch(url, config);
+    let response = await fetch(url, config);
+    if (response.status === 401 || response.status === 403) {
+        try {
+            await refreshToken();
+            const { accessToken } = getTokens();
+            config.headers = {
+                ...config.headers,
+                authorization: `${accessToken}`,
+            };
+            response = await fetch(url, config);
+        } catch (refreshError) {
+            removeTokens();
+            throw new Error('Требуется повторная авторизация');
+        }
+    }
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || `Ошибка ${response.status}`);
@@ -24,6 +36,5 @@ export const request = async <T>(endpoint: string, options?: RequestOptions): Pr
     if (!data.success) {
         throw new Error(data.message || 'Неизвестная ошибка');
     }
-
     return data as T;
 };

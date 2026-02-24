@@ -1,17 +1,17 @@
 import styles from './LoginPage.module.css';
-import {FormEvent, useEffect, useState} from "react";
-import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {FormEvent, useEffect} from "react";
+import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {Link, useNavigate} from "react-router-dom";
 import {Button, PasswordInput, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {clearAuthError, loginUser} from "../../services/slices/UserSlice";
+import {useForm} from "../../hooks/useForm";
 
 
 export const LoginPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const dispatch = useAppDispatch();
-    const {isAuthChecked, authError, user} = useAppSelector(state => state.user);
+    const {isAuthChecked, authError, user} = useAppSelector(selectUser);
     const navigate = useNavigate();
+    const { values, handleChange } = useForm({ email: '', password: '' });
 
     useEffect(() => {
         dispatch(clearAuthError());
@@ -19,7 +19,7 @@ export const LoginPage = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        dispatch(loginUser({ email, password })).unwrap().then(() => {
+        dispatch(loginUser(values)).unwrap().then(() => {
             if (isAuthChecked && user) {
                 navigate('/');
             }
@@ -37,16 +37,18 @@ export const LoginPage = () => {
                 */}
                 <EmailInput
                     placeholder="E-mail"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
                     errorText="Ошибка"
                     size="default"
                     extraClass="mb-6"
                 />
                 <PasswordInput
                     placeholder="Пароль"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
                     extraClass="mb-6"
                 />
                 {
@@ -57,7 +59,7 @@ export const LoginPage = () => {
                     htmlType="submit"
                     type="primary"
                     size="medium"
-                    disabled={!email || !password}
+                    disabled={!values.email || !values.password}
                 >
                     Войти
                 </Button>

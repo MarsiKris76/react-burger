@@ -1,4 +1,4 @@
-import React from "react";
+import {ChangeEvent, ReactNode} from "react";
 
 export type IngredientType = 'bun' | 'sauce' | 'main';
 
@@ -30,7 +30,7 @@ export type BurgerConstructorProps = {
 export type ModalProps = {
     title: string;
     onClose: () => void;
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 export type ModalOverlayProps = {
@@ -44,6 +44,13 @@ export type ConstructorItemProps = {
 }
 
 export type ProtectedRouteProps = {
-    children: React.ReactNode;
+    children: ReactNode;
     onlyUnAuth?: boolean;
+}
+
+export type UseFormReturn<T> = {
+    values: T;
+    handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    setValues: (newValues: T) => void;
+    reset: () => void;
 }

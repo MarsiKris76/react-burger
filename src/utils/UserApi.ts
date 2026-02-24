@@ -6,6 +6,7 @@ import {
     ResetPasswordRequest, UpdateUserRequest,
     UserResponse, UsualResponse
 } from "../types/ApiTypes";
+import {getTokens} from "./Utils";
 
 export const register = async (userDate: RegisterRequest): Promise<UserResponse> => {
     return request('/auth/register', {
@@ -36,7 +37,7 @@ export const resetPassword = async (resetPassDate: ResetPasswordRequest): Promis
 };
 
 export const logout = async (): Promise<UsualResponse> => {
-    const refreshToken = localStorage.getItem('refreshToken');
+    const { refreshToken } = getTokens();
     return request('/auth/logout', {
         method: 'POST',
         body: JSON.stringify({ token: refreshToken }),
@@ -44,28 +45,28 @@ export const logout = async (): Promise<UsualResponse> => {
 };
 
 export const updateUser = async (userData: UpdateUserRequest): Promise<UserResponse> => {
-    const accessToken = localStorage.getItem('accessToken');
+    const { accessToken } = getTokens();
     return request('/auth/user', {
         method: 'PATCH',
         headers: {
-            authorization: `Bearer ${accessToken}`,
+            authorization: `${accessToken}`,
         },
         body: JSON.stringify(userData),
     });
 };
 
 export const getUser = async (): Promise<UserResponse> => {
-    const accessToken = localStorage.getItem('accessToken');
+    const { accessToken } = getTokens();
     return request('/auth/user', {
         method: 'GET',
         headers: {
-            authorization: `Bearer ${accessToken}`,
+            authorization: `${accessToken}`,
         },
     });
 };
 
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {
-    const refreshToken = localStorage.getItem('refreshToken');
+    const { refreshToken } = getTokens();
     return request('/auth/token', {
         method: 'POST',
         body: JSON.stringify({ token: refreshToken }),

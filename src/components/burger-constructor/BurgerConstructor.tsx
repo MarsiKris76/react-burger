@@ -1,15 +1,18 @@
-import {useEffect, useMemo, useRef} from 'react';
+import {FC, useEffect, useMemo, useRef} from 'react';
 import {Button, ConstructorElement, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDrop} from 'react-dnd';
 import styles from './BurgerConstructor.module.css';
 import {BurgerConstructorProps, Ingredient} from "../../types/ComponentTypes";
 import {decrementIngredientCounter, incrementIngredientCounter} from "../../services/slices/IngredientsSlice";
 import {ConstructorItem} from "../constructor-item/ConstructorItem";
-import {selectBurgerConstructor, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {selectBurgerConstructor, selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {addIngredient, removeIngredient, replaceBun} from "../../services/slices/BurgerConstructorSlice";
+import {useNavigate} from "react-router-dom";
 
-export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderClick } ) => {
+export const BurgerConstructor: FC<BurgerConstructorProps> = ({ onOrderClick } ) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { user } = useAppSelector(selectUser);
     const { bun, ingredients } = useAppSelector(selectBurgerConstructor);
     const dropRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +59,9 @@ export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderCli
         if (!bun || ingredients.length === 0) {
             alert('Добавьте булку и хотя бы одну начинку для оформления заказа');
             return;
+        }
+        if (!user) {
+            navigate('/login');
         }
         onOrderClick();
     };

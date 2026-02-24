@@ -5,6 +5,7 @@ import {
     logout as logoutApi,
     updateUser as updateUserApi,
     getUser as getUserApi,
+    refreshToken as refreshTokenApi,
     forgotPassword as forgotPasswordApi,
     resetPassword as resetPasswordApi
 } from '../../utils/UserApi';
@@ -16,14 +17,14 @@ import {
     ResetPasswordRequest,
     UpdateUserRequest
 } from "../../types/ApiTypes";
+import {removeTokens, saveTokens} from "../../utils/Utils";
 
 export const loginUser = createAsyncThunk(
     'user/login',
     async ({email, password}: LoginRequest, { rejectWithValue }) => {
         try {
             const response = await loginApi({ email, password });
-            localStorage.setItem('accessToken', response.accessToken);
-            localStorage.setItem('refreshToken', response.refreshToken);
+            saveTokens(response.accessToken, response.refreshToken);
             return response.user;
         } catch (error: any) {
             return rejectWithValue(error.message || 'Ошибка входа');
@@ -36,8 +37,7 @@ export const registerUser = createAsyncThunk(
     async ({ name, email, password }: RegisterRequest, { rejectWithValue }) => {
         try {
             const response = await registerApi({ name, email, password });
-            localStorage.setItem('accessToken', response.accessToken);
-            localStorage.setItem('refreshToken', response.refreshToken);
+            saveTokens(response.accessToken, response.refreshToken);
             return response.user;
         } catch (error: any) {
             return rejectWithValue(error.message || 'Ошибка регистрации');
@@ -50,8 +50,7 @@ export const logoutUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             await logoutApi();
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
+            removeTokens();
             return {};
         } catch (error: any) {
             return rejectWithValue(error.message || 'Ошибка выхода');
@@ -101,6 +100,19 @@ export const resetPassword = createAsyncThunk(
             return await resetPasswordApi({ password, token });
         } catch (error: any) {
             return rejectWithValue(error.message || 'Ошибка сброса пароля');
+        }
+    }
+);
+
+export const updateToken = createAsyncThunk(
+    'user/updateToken',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await refreshTokenApi();
+            saveTokens(response.accessToken, response.refreshToken);
+            return {};
+        } catch (error: any) {
+            return rejectWithValue(error.message || 'Ошибка обновления токена');
         }
     }
 );
@@ -187,6 +199,10 @@ export const userSlice = createSlice({
                 state.isUpdating = false;
                 state.authError = action.payload as string;
             })
+            .addCase(fetchUser.pending, (state) => {
+                state.isAuthChecked = false;
+                state.authError = null;
+            })
             .addCase(fetchUser.fulfilled, (state, action) => {
                 state.user = action.payload;
                 state.isAuthChecked = true;
@@ -200,6 +216,14 @@ export const userSlice = createSlice({
             })
             .addCase(resetPassword.rejected, (state, action) => {
                 state.authError = action.payload as string;
+            })
+            .addCase(updateToken.fulfilled, (state) => {
+                state.authError = null;
+            })
+            .addCase(updateToken.rejected, (state, action) => {
+                state.authError = action.payload as string;
+                state.user = null;
+                removeTokens();
             });
     },
 });

@@ -1,16 +1,17 @@
 import styles from '../login/LoginPage.module.css';
-import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {Button, EmailInput} from '@ya.praktikum/react-developer-burger-ui-components';
 import {forgotPassword} from "../../utils/UserApi";
+import {useForm} from "../../hooks/useForm";
+import {FormEvent} from "react";
 
 export const ForgotPasswordPage = () => {
-    const [email, setEmail] = useState('');
+    const { values, handleChange } = useForm({email: ''});
     const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        forgotPassword({email}).then(() => {
+        forgotPassword(values).then(() => {
             navigate('/reset-password');
         }).catch(() => {});
     };
@@ -21,8 +22,9 @@ export const ForgotPasswordPage = () => {
                 <h2 className="text text_type_main-medium mb-6">Восстановление пароля</h2>
                 <EmailInput
                     placeholder="Укажите E-mail"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
                     errorText="Ошибка"
                     size="default"
                     extraClass="mb-6"
@@ -31,7 +33,7 @@ export const ForgotPasswordPage = () => {
                     htmlType="submit"
                     type="primary"
                     size="medium"
-                    disabled={!email}
+                    disabled={!values.email}
                 >
                     Восстановить
                 </Button>

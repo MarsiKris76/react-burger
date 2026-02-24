@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
 import styles from './ConstructorItem.module.css';
+import {FC, useRef} from 'react';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
 import {ConstructorItemProps} from "../../types/ComponentTypes";
@@ -7,7 +7,7 @@ import {moveIngredient} from "../../services/slices/BurgerConstructorSlice";
 import {useAppDispatch} from "../../services/RootReducer";
 
 
-export const ConstructorItem: React.FC<ConstructorItemProps> = ({ ingredient, index, onRemove }) => {
+export const ConstructorItem: FC<ConstructorItemProps> = ({ ingredient, index, onRemove }) => {
     const ref = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch();
 
