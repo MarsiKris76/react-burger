@@ -1,10 +1,11 @@
 import {FC} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
-import {selectUser, useAppSelector} from "../../services/RootReducer";
+import {useAppSelector} from "../../services/RootReducer";
+import {userSelectors} from '../../services/slices/UserSlice';
 import {ProtectedRouteProps} from "../../types/ComponentTypes";
 
 export const ProtectedRouteElement: FC<ProtectedRouteProps> = ({children, onlyUnAuth = false}) => {
-    const { user, isAuthChecked } = useAppSelector(selectUser);
+    const { user, isAuthChecked } = useAppSelector(userSelectors.selectUserData);
     const location = useLocation();
 
     if (!isAuthChecked) {

@@ -3,12 +3,12 @@ import {Link, useNavigate} from 'react-router-dom';
 import {Button, EmailInput} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useForm} from "../../hooks/useForm";
 import {FormEvent} from "react";
-import {forgotPassword} from "../../services/slices/UserSlice";
-import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {forgotPassword, userSelectors} from "../../services/slices/UserSlice";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
 
 export const ForgotPasswordPage = () => {
     const { values, handleChange } = useForm({email: ''});
-    const { authError } = useAppSelector(selectUser);
+    const { authError } = useAppSelector(userSelectors.selectUserData);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 

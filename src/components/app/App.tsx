@@ -1,7 +1,7 @@
 import {Route, Routes, useLocation} from "react-router-dom";
-import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {useEffect} from "react";
-import {authCheck, fetchUser} from "../../services/slices/UserSlice";
+import {authCheck, fetchUser, userSelectors} from "../../services/slices/UserSlice";
 import {AppHeader} from "../app-header/AppHeader";
 import {RegisterPage} from "../../pages/register/RegisterPage";
 import {ForgotPasswordPage} from "../../pages/forgot-password/ForgotPasswordPage";
@@ -21,7 +21,7 @@ import {OrdersListPage} from "../../pages/orders-list/OrdersListPage";
 
 export const App = () => {
     const dispatch = useAppDispatch();
-    const { isAuthChecked, user } = useAppSelector(selectUser);
+    const { isAuthChecked, user } = useAppSelector(userSelectors.selectUserData);
     const location = useLocation();
     const hasToken = !!localStorage.getItem('accessToken');
     const backgroundLocation = location.state?.backgroundLocation || null;

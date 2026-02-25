@@ -1,12 +1,12 @@
 import styles from './ProfileForm.module.css';
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {FormEvent, useEffect, useState} from "react";
-import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
-import {clearAuthError, updateUser} from "../../services/slices/UserSlice";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {clearAuthError, updateUser, userSelectors} from "../../services/slices/UserSlice";
 
 export const ProfileForm = () => {
     const dispatch = useAppDispatch();
-    const { user, isUpdating, authError } = useAppSelector(selectUser);
+    const { user, isUpdating, authError } = useAppSelector(userSelectors.selectUserData);
     // не стал применять тут хук для полей контроля полей формы т.к. это его сильно усложнит. Вроде так понятнее...
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');

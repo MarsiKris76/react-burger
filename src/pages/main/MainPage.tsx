@@ -4,14 +4,14 @@ import {BurgerIngredients} from "../../components/burger-ingredients/BurgerIngre
 import {BurgerConstructor} from "../../components/burger-constructor/BurgerConstructor";
 import {Modal} from "../../components/modal/Modal";
 import {OrderDetails} from "../../components/order-details/OrderDetails";
-import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
-import {fetchIngredients, resetIngredientsCounter} from "../../services/slices/IngredientsSlice";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {fetchIngredients, ingredientsSelectors, resetIngredientsCounter} from "../../services/slices/IngredientsSlice";
 import {resetOrder, sendOrder} from "../../services/slices/OrderSlice";
 import {resetConstructor} from "../../services/slices/BurgerConstructorSlice";
 
 export const MainPage = () => {
     const dispatch = useAppDispatch();
-    const { loading, error } = useAppSelector(selectIngredients);
+    const { loading, error } = useAppSelector(ingredientsSelectors.selectIngredientsData);
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
     useEffect(() => {

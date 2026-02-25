@@ -59,8 +59,19 @@ export const orderSlice = createSlice({
                 state.error = action.payload as string;
             });
     },
+    selectors: {
+        selectorOderData: (state) => ({
+            orderRequest: state.orderRequest,
+            orderSuccess: state.orderSuccess,
+            order: state.order,
+            error: state.error,
+        })
+    },
 });
 
 export const { resetOrder } = orderSlice.actions;
 
-export default orderSlice.reducer;
+export const {
+  reducer: orderReducer,
+  selectors: orderSelectors,
+} = orderSlice;

@@ -14,8 +14,16 @@ export const viewIngredientSlice = createSlice({
             return null;
         },
     },
+    selectors: {
+        selectViewIngredientData: (state) => ({
+            ingredient: state
+        }),
+    },
 });
 
 export const { setCurrentIngredient, clearCurrentIngredient } = viewIngredientSlice.actions;
 
-export default viewIngredientSlice.reducer;
+export const {
+  reducer: viewIngredientReducer,
+  selectors: viewIngredientSelectors,
+} = viewIngredientSlice;

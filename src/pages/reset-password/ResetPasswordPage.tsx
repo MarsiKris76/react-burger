@@ -3,15 +3,15 @@ import {Link, Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {Input, Button, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useForm} from "../../hooks/useForm";
 import {FormEvent} from "react";
-import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
-import {resetPassword} from "../../services/slices/UserSlice";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {resetPassword, userSelectors} from "../../services/slices/UserSlice";
 
 export const ResetPasswordPage = () => {
     const dispatch = useAppDispatch();
     const { values, handleChange } = useForm({ password: '', token: '' });
     const navigate = useNavigate();
     const location = useLocation();
-    const { isPasswordRecoveryRequested, authError } = useAppSelector(selectUser);
+    const { isPasswordRecoveryRequested, authError } = useAppSelector(userSelectors.selectUserData);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();

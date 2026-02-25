@@ -228,8 +228,21 @@ export const userSlice = createSlice({
                 removeTokens();
             });
     },
+    selectors: {
+        selectUserData: (state) => ({
+            user: state.user,
+            isAuthChecked: state.isAuthChecked,
+            authError: state.authError,
+            isUpdating: state.isUpdating,
+            isPasswordRecoveryRequested: state.isPasswordRecoveryRequested,
+            isRegistering: state.isRegistering,
+        })
+    },
 });
 
 export const { setUser, logout, authCheck, clearAuthError } = userSlice.actions;
 
-export default userSlice.reducer;
+export const {
+    reducer: userReducer,
+    selectors: userSelectors,
+} = userSlice;

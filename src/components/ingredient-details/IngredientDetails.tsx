@@ -1,15 +1,15 @@
 import styles from './IngredientDetails.module.css';
-import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
-import {fetchIngredients} from "../../services/slices/IngredientsSlice";
+import {fetchIngredients, ingredientsSelectors} from "../../services/slices/IngredientsSlice";
 import {setCurrentIngredient} from "../../services/slices/ViewIngredientSlice";
 
 export const IngredientDetails = () => {
 
     const dispatch = useAppDispatch();
     const { id } = useParams<{ id: string }>();
-    const { loading, items: ingredients } = useAppSelector(selectIngredients);
+    const { loading, ingredients } = useAppSelector(ingredientsSelectors.selectIngredientsData);
 
     useEffect(() => {
         if (ingredients.length === 0) {

@@ -3,9 +3,10 @@ import {useMemo, useRef, useState, useEffect} from "react";
 import styles from './BurgerIngredients.module.css';
 import {Ingredient, IngredientType} from "../../types/ComponentTypes";
 import {IngredientCard} from "../ingredient-card/IngredientCard";
-import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {setCurrentIngredient} from "../../services/slices/ViewIngredientSlice";
 import {useLocation, useNavigate} from "react-router-dom";
+import {ingredientsSelectors} from "../../services/slices/IngredientsSlice";
 
 const sectionHeaderClassName = "text text_type_main-medium mb-6 mt-10";
 
@@ -13,7 +14,7 @@ export const BurgerIngredients = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const { items: ingredients } = useAppSelector(selectIngredients);
+    const { ingredients } = useAppSelector(ingredientsSelectors.selectIngredientsData);
     const [currentTab, setCurrentTab] = useState<IngredientType>('bun')
     const bunRef = useRef<HTMLDivElement>(null);
     const sauceRef = useRef<HTMLDivElement>(null);

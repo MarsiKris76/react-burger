@@ -67,6 +67,13 @@ export const ingredientsSlice = createSlice({
                 state.error = action.payload as string;
             });
     },
+    selectors: {
+        selectIngredientsData: (state) => ({
+            ingredients: state.items,
+            loading: state.loading,
+            error: state.error
+          })
+    },
 });
 
 export const {
@@ -75,4 +82,7 @@ export const {
     resetIngredientsCounter
 } = ingredientsSlice.actions;
 
-export default ingredientsSlice.reducer;
+export const {
+  reducer: ingredientsReducer,
+  selectors: ingredientsSelectors,
+} = ingredientsSlice;

@@ -5,15 +5,16 @@ import styles from './BurgerConstructor.module.css';
 import {BurgerConstructorProps, Ingredient} from "../../types/ComponentTypes";
 import {decrementIngredientCounter, incrementIngredientCounter} from "../../services/slices/IngredientsSlice";
 import {ConstructorItem} from "../constructor-item/ConstructorItem";
-import {selectBurgerConstructor, selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
-import {addIngredient, removeIngredient, replaceBun} from "../../services/slices/BurgerConstructorSlice";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {addIngredient, burgerConstructorSelectors, removeIngredient, replaceBun} from "../../services/slices/BurgerConstructorSlice";
 import {useNavigate} from "react-router-dom";
+import {userSelectors} from '../../services/slices/UserSlice';
 
 export const BurgerConstructor: FC<BurgerConstructorProps> = ({ onOrderClick } ) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { user } = useAppSelector(selectUser);
-    const { bun, ingredients } = useAppSelector(selectBurgerConstructor);
+    const { user } = useAppSelector(userSelectors.selectUserData);
+    const { bun, ingredients } = useAppSelector(burgerConstructorSelectors.selectBurgerConstructorData);
     const dropRef = useRef<HTMLDivElement>(null);
 
     const [{ isOver }, drop] = useDrop({

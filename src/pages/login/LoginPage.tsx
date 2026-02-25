@@ -1,15 +1,15 @@
 import styles from './LoginPage.module.css';
 import {FormEvent, useEffect} from "react";
-import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {Link, useNavigate} from "react-router-dom";
 import {Button, PasswordInput, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {clearAuthError, loginUser} from "../../services/slices/UserSlice";
+import {clearAuthError, loginUser, userSelectors} from "../../services/slices/UserSlice";
 import {useForm} from "../../hooks/useForm";
 
 
 export const LoginPage = () => {
     const dispatch = useAppDispatch();
-    const {isAuthChecked, authError, user} = useAppSelector(selectUser);
+    const {isAuthChecked, authError, user} = useAppSelector(userSelectors.selectUserData);
     const navigate = useNavigate();
     const { values, handleChange } = useForm({ email: '', password: '' });
 
