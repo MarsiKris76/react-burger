@@ -16,6 +16,7 @@ import {OrdersLst} from "../orders-list/OrdersLst";
 import {Modal} from "../modal/Modal";
 import {IngredientDetails} from "../ingredient-details/IngredientDetails";
 import {ProtectedRouteElement} from "../protected-route-element/ProtectedRouteElement";
+import {OrdersListPage} from "../../pages/orders-list/OrdersListPage";
 
 
 export const App = () => {
@@ -46,6 +47,7 @@ export const App = () => {
                     <Route path="orders" element={<OrdersLst />} />
                 </Route>
                 <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
+                <Route path="/orders" element={<ProtectedRouteElement><OrdersListPage /></ProtectedRouteElement>} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
             {backgroundLocation && (

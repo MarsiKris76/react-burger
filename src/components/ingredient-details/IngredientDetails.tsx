@@ -1,13 +1,38 @@
 import styles from './IngredientDetails.module.css';
-import {selectViewIngredient, useAppSelector} from "../../services/RootReducer";
+import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {useParams} from "react-router-dom";
+import {useEffect} from "react";
+import {fetchIngredients} from "../../services/slices/IngredientsSlice";
+import {setCurrentIngredient} from "../../services/slices/ViewIngredientSlice";
 
 export const IngredientDetails = () => {
-    const ingredient = useAppSelector(selectViewIngredient);
+
+    const dispatch = useAppDispatch();
+    const { id } = useParams<{ id: string }>();
+    const { loading, items: ingredients } = useAppSelector(selectIngredients);
+
+    useEffect(() => {
+        if (ingredients.length === 0) {
+            dispatch(fetchIngredients());
+        }
+    }, [dispatch, ingredients.length]);
+
+    const ingredient = ingredients.find(item => item._id === id);
+
+    useEffect(() => {
+        if (ingredient) {
+            dispatch(setCurrentIngredient(ingredient));
+        }
+    }, [dispatch, ingredient]);
+
+    if (loading) {
+        return <p className="text text_type_main-large text_color_inactive mt-10">Загрузка...</p>;
+    }
 
     if (!ingredient) {
         return (
             <div className={styles.container}>
-                <p className="text text_type_main-medium">Ингредиент не найден</p>
+                <h2 className="text text_type_main-large">Ингредиент не найден</h2>
             </div>
         );
     }
