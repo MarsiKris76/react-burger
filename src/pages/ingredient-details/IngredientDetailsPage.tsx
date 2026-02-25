@@ -15,13 +15,19 @@ export const IngredientDetailsPage = () => {
         if (ingredients.length === 0) {
             dispatch(fetchIngredients());
         }
-    })
+    }, [dispatch, ingredients.length]);
+
+    const ingredient = ingredients.find(item => item._id === id);
+
+    useEffect(() => {
+        if (ingredient) {
+            dispatch(setCurrentIngredient(ingredient));
+        }
+    }, [dispatch, ingredient]);
 
     if (loading) {
         return <p className="text text_type_main-large text_color_inactive mt-10">Загрузка...</p>;
     }
-
-    const ingredient = ingredients.find(item => item._id === id);
 
     if (!ingredient) {
         return (
@@ -30,7 +36,7 @@ export const IngredientDetailsPage = () => {
             </div>
         );
     }
-    dispatch(setCurrentIngredient(ingredient));
+
     return (
         <div className={styles.container}>
             <h1 className="text text_type_main-large mb-5">Детали ингредиента</h1>

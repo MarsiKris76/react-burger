@@ -1,20 +1,28 @@
 import styles from '../login/LoginPage.module.css';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {Input, Button, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components';
-import {resetPassword} from "../../utils/UserApi";
 import {useForm} from "../../hooks/useForm";
 import {FormEvent} from "react";
+import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {resetPassword} from "../../services/slices/UserSlice";
 
 export const ResetPasswordPage = () => {
+    const dispatch = useAppDispatch();
     const { values, handleChange } = useForm({ password: '', token: '' });
     const navigate = useNavigate();
+    const location = useLocation();
+    const { isPasswordRecoveryRequested, authError } = useAppSelector(selectUser);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        resetPassword(values).then(() => {
+        dispatch(resetPassword(values)).then(() => {
                 navigate('/login');
             }).catch(() => {});
     };
+
+    if (!isPasswordRecoveryRequested) {
+        return <Navigate to="/login" state={{ from: location }} />;
+    }
 
     return (
         <div className={styles.container}>
@@ -40,7 +48,8 @@ export const ResetPasswordPage = () => {
                     onPointerEnterCapture={undefined}
                     onPointerLeaveCapture={undefined}
                 />
-
+                {authError ? (
+                    <span className="text text_type_main-small text_color_error mb-6">{authError}</span>) : null}
                 <Button
                     htmlType="submit"
                     type="primary"

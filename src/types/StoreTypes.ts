@@ -40,6 +40,6 @@ export type UserState = {
     isAuthChecked: boolean;
     authError: string | null;
     isUpdating: boolean;
-    isLoggingIn: boolean;
+    isPasswordRecoveryRequested: boolean;
     isRegistering: boolean;
 };

@@ -1,17 +1,20 @@
 import styles from '../login/LoginPage.module.css';
 import {Link, useNavigate} from 'react-router-dom';
 import {Button, EmailInput} from '@ya.praktikum/react-developer-burger-ui-components';
-import {forgotPassword} from "../../utils/UserApi";
 import {useForm} from "../../hooks/useForm";
 import {FormEvent} from "react";
+import {forgotPassword} from "../../services/slices/UserSlice";
+import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
 
 export const ForgotPasswordPage = () => {
     const { values, handleChange } = useForm({email: ''});
+    const { authError } = useAppSelector(selectUser);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        forgotPassword(values).then(() => {
+        dispatch(forgotPassword(values)).unwrap().then(() => {
             navigate('/reset-password');
         }).catch(() => {});
     };
@@ -29,6 +32,8 @@ export const ForgotPasswordPage = () => {
                     size="default"
                     extraClass="mb-6"
                 />
+                {authError ? (
+                    <span className="text text_type_main-small text_color_error mb-6">{authError}</span>) : null}
                 <Button
                     htmlType="submit"
                     type="primary"

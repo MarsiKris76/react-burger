@@ -1,18 +1,11 @@
 import {FC} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
-import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {selectUser, useAppSelector} from "../../services/RootReducer";
 import {ProtectedRouteProps} from "../../types/ComponentTypes";
-import {logout} from "../../services/slices/UserSlice";
 
-export const ProtectedRoute: FC<ProtectedRouteProps> = ({children, onlyUnAuth = false}) => {
-    const { user, isAuthChecked, authError } = useAppSelector(selectUser);
-    const dispatch = useAppDispatch();
+export const ProtectedRouteElement: FC<ProtectedRouteProps> = ({children, onlyUnAuth = false}) => {
+    const { user, isAuthChecked } = useAppSelector(selectUser);
     const location = useLocation();
-
-    if (authError) {
-        dispatch(logout());
-        return <Navigate to="/login" state={{ from: location }} />;
-    }
 
     if (!isAuthChecked) {
         return <p className="text text_type_main-medium">Загрузка...</p>;

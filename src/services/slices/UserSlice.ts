@@ -122,7 +122,7 @@ const initialState: UserState = {
     isAuthChecked: false,
     authError: null,
     isUpdating: false,
-    isLoggingIn: false,
+    isPasswordRecoveryRequested: false,
     isRegistering: false,
 };
 
@@ -151,18 +151,17 @@ export const userSlice = createSlice({
         builder
             // Login
             .addCase(loginUser.pending, (state) => {
-                state.isLoggingIn = true;
                 state.authError = null;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.user = action.payload;
                 state.isAuthChecked = true;
-                state.isLoggingIn = false;
                 state.authError = null;
             })
             .addCase(loginUser.rejected, (state, action) => {
-                state.isLoggingIn = false;
                 state.authError = action.payload as string;
+                state.user = null;
+                state.isAuthChecked = true;
             })
             .addCase(registerUser.pending, (state) => {
                 state.isRegistering = true;
@@ -210,6 +209,9 @@ export const userSlice = createSlice({
             })
             .addCase(fetchUser.rejected, (state, action) => {
                 state.authError = action.payload as string;
+            })
+            .addCase(forgotPassword.fulfilled, (state) => {
+                state.isPasswordRecoveryRequested = true;
             })
             .addCase(forgotPassword.rejected, (state, action) => {
                 state.authError = action.payload as string;

@@ -1,4 +1,4 @@
-import {request} from "./Request";
+import {fetchWithoutAuth, request} from "./Request";
 import {
     ForgotPasswordRequest,
     LoginRequest, RefreshTokenResponse,
@@ -67,7 +67,7 @@ export const getUser = async (): Promise<UserResponse> => {
 
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {
     const { refreshToken } = getTokens();
-    return request('/auth/token', {
+    return fetchWithoutAuth('/auth/token', {
         method: 'POST',
         body: JSON.stringify({ token: refreshToken }),
     });

@@ -2,7 +2,6 @@ import {Route, Routes, useLocation} from "react-router-dom";
 import {selectUser, useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {useEffect} from "react";
 import {authCheck, fetchUser} from "../../services/slices/UserSlice";
-import {ProtectedRoute} from "../protected-route/ProtectedRoute";
 import {AppHeader} from "../app-header/AppHeader";
 import {RegisterPage} from "../../pages/register/RegisterPage";
 import {ForgotPasswordPage} from "../../pages/forgot-password/ForgotPasswordPage";
@@ -16,6 +15,7 @@ import {ProfileForm} from "../profile-form/ProfileForm";
 import {OrdersLst} from "../orders-list/OrdersLst";
 import {Modal} from "../modal/Modal";
 import {IngredientDetails} from "../ingredient-details/IngredientDetails";
+import {ProtectedRouteElement} from "../protected-route-element/ProtectedRouteElement";
 
 
 export const App = () => {
@@ -37,11 +37,11 @@ export const App = () => {
             <AppHeader />
             <Routes location={backgroundLocation || location}>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/login" element={<ProtectedRoute onlyUnAuth={true}><LoginPage /></ProtectedRoute>} />
-                <Route path="/register" element={<ProtectedRoute onlyUnAuth={true}><RegisterPage /></ProtectedRoute>} />
-                <Route path="/forgot-password" element={<ProtectedRoute onlyUnAuth={true}><ForgotPasswordPage /></ProtectedRoute>} />
-                <Route path="/reset-password" element={<ProtectedRoute onlyUnAuth={true}><ResetPasswordPage /></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>}>
+                <Route path="/login" element={<ProtectedRouteElement onlyUnAuth={true}><LoginPage /></ProtectedRouteElement>} />
+                <Route path="/register" element={<ProtectedRouteElement onlyUnAuth={true}><RegisterPage /></ProtectedRouteElement>} />
+                <Route path="/forgot-password" element={<ProtectedRouteElement onlyUnAuth={true}><ForgotPasswordPage /></ProtectedRouteElement>} />
+                <Route path="/reset-password" element={<ProtectedRouteElement onlyUnAuth={true}><ResetPasswordPage /></ProtectedRouteElement>} />
+                <Route path="/profile" element={<ProtectedRouteElement><ProfilePage /></ProtectedRouteElement>}>
                     <Route index element={<ProfileForm />} />
                     <Route path="orders" element={<OrdersLst />} />
                 </Route>
