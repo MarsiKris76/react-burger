@@ -1,9 +1,10 @@
-import React from 'react';
+import {FC} from 'react';
 import styles from './OrderDetails.module.css';
-import {selectOrder, useAppSelector} from "../../services/RootReducer";
+import {useAppSelector} from "../../services/RootReducer";
+import {orderSelectors} from '../../services/slices/OrderSlice';
 
-export const OrderDetails: React.FC = () => {
-    const { order, orderRequest, error } = useAppSelector(selectOrder);
+export const OrderDetails: FC = () => {
+    const { order, orderRequest, error } = useAppSelector(orderSelectors.selectorOderData);
 
     if (orderRequest) {
         return (

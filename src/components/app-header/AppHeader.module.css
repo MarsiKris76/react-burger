@@ -5,8 +5,14 @@
 }
 
 .header div,
+.header a,
 .header nav {
     display: flex;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .nav {

@@ -5,9 +5,15 @@ import {getIngredientsApi} from "../../utils/BurgerApi";
 
 export const fetchIngredients = createAsyncThunk(
     'ingredients/fetchIngredients',
-    async (_, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState}) => {
         try {
-            return await getIngredientsApi();
+            const state = getState() as { ingredients: IngredientsState };
+            const existingCounters = new Map(state.ingredients.items.map(item => [item._id, item.counter]));
+            const apiIngredients = await getIngredientsApi();
+            return apiIngredients.map(ingredient => ({
+                ...ingredient,
+                counter: existingCounters.get(ingredient._id) || 0
+            }));
         } catch (error: any) {
             return rejectWithValue(error.message || 'Неизвестная ошибка');
         }
@@ -53,14 +59,20 @@ export const ingredientsSlice = createSlice({
                 state.loading = false;
                 // Инициализируем счётчики при получении ингредиентов
                 state.items = action.payload.map(ingredient => ({
-                    ...ingredient,
-                    counter: 0
+                    ...ingredient
                 }));
             })
             .addCase(fetchIngredients.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             });
+    },
+    selectors: {
+        selectIngredientsData: (state) => ({
+            ingredients: state.items,
+            loading: state.loading,
+            error: state.error
+          })
     },
 });
 
@@ -70,4 +82,7 @@ export const {
     resetIngredientsCounter
 } = ingredientsSlice.actions;
 
-export default ingredientsSlice.reducer;
+export const {
+  reducer: ingredientsReducer,
+  selectors: ingredientsSelectors,
+} = ingredientsSlice;

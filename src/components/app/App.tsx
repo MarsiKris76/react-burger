@@ -1,60 +1,67 @@
-import {useEffect, useState} from 'react';
-import styles from './App.module.css';
+import {Route, Routes, useLocation} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {useEffect} from "react";
+import {authCheck, fetchUser, userSelectors} from "../../services/slices/UserSlice";
 import {AppHeader} from "../app-header/AppHeader";
-import {BurgerIngredients} from "../burger-ingredients/BurgerIngredients";
-import {BurgerConstructor} from "../burger-constructor/BurgerConstructor";
+import {RegisterPage} from "../../pages/register/RegisterPage";
+import {ForgotPasswordPage} from "../../pages/forgot-password/ForgotPasswordPage";
+import {ResetPasswordPage} from "../../pages/reset-password/ResetPasswordPage";
+import {NotFoundPage} from "../../pages/not-found/NotFoundPage";
+import {LoginPage} from "../../pages/login/LoginPage";
+import {MainPage} from "../../pages/main/MainPage";
+import {IngredientDetailsPage} from "../../pages/ingredient-details/IngredientDetailsPage";
+import {ProfilePage} from "../../pages/profile/ProfilePage";
+import {ProfileForm} from "../profile-form/ProfileForm";
+import {OrdersLst} from "../orders-list/OrdersLst";
 import {Modal} from "../modal/Modal";
-import {OrderDetails} from "../order-details/OrderDetails";
-import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
-import {fetchIngredients} from "../../services/slices/IngredientsSlice";
-import {resetOrder, sendOrder} from "../../services/slices/OrderSlice";
-import {resetConstructor} from "../../services/slices/BurgerConstructorSlice";
+import {IngredientDetails} from "../ingredient-details/IngredientDetails";
+import {ProtectedRouteElement} from "../protected-route-element/ProtectedRouteElement";
+import {OrdersListPage} from "../../pages/orders-list/OrdersListPage";
 
-function App() {
+
+export const App = () => {
     const dispatch = useAppDispatch();
-    const { loading, error } = useAppSelector(selectIngredients);
-    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+    const { isAuthChecked, user } = useAppSelector(userSelectors.selectUserData);
+    const location = useLocation();
+    const hasToken = !!localStorage.getItem('accessToken');
+    const backgroundLocation = location.state?.backgroundLocation || null;
 
     useEffect(() => {
-        dispatch(fetchIngredients());
-    }, [dispatch]);
-
-    const handleOrderClick = () => {
-        dispatch(sendOrder());
-        setIsOrderModalOpen(true);
-    };
-
-    const handleCloseOrderModal = () => {
-        setIsOrderModalOpen(false);
-        dispatch(resetOrder());
-        dispatch(resetConstructor());
-    };
-
-    if (loading) {
-        return <p className="text text_type_main-large text_color_inactive mt-10">Загрузка...</p>;
-    }
-
-    if (error) {
-        console.error(error);
-        return <p className="text text_type_main-large text_color_error mt-10">Ошибка сетевого запроса</p>;
-    }
+        dispatch(authCheck());
+        if (hasToken && !user && !isAuthChecked) {
+           dispatch(fetchUser());
+        }
+    }, [dispatch, hasToken, user, isAuthChecked]);
 
     return (
         <>
             <AppHeader />
-            <main className={styles.main}>
-                <div className={styles.content}>
-                    <BurgerIngredients />
-                    <BurgerConstructor onOrderClick={handleOrderClick}/>
-                </div>
-            </main>
-              {isOrderModalOpen && (
-                  <Modal title="" onClose={handleCloseOrderModal}>
-                      <OrderDetails />
-                  </Modal>
-              )}
+            <Routes location={backgroundLocation || location}>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/login" element={<ProtectedRouteElement onlyUnAuth={true}><LoginPage /></ProtectedRouteElement>} />
+                <Route path="/register" element={<ProtectedRouteElement onlyUnAuth={true}><RegisterPage /></ProtectedRouteElement>} />
+                <Route path="/forgot-password" element={<ProtectedRouteElement onlyUnAuth={true}><ForgotPasswordPage /></ProtectedRouteElement>} />
+                <Route path="/reset-password" element={<ProtectedRouteElement onlyUnAuth={true}><ResetPasswordPage /></ProtectedRouteElement>} />
+                <Route path="/profile" element={<ProtectedRouteElement><ProfilePage /></ProtectedRouteElement>}>
+                    <Route index element={<ProfileForm />} />
+                    <Route path="orders" element={<OrdersLst />} />
+                </Route>
+                <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
+                <Route path="/feed" element={<ProtectedRouteElement><OrdersListPage /></ProtectedRouteElement>} />
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+            {backgroundLocation && (
+                <Routes>
+                    <Route
+                        path="/ingredients/:id"
+                        element={
+                            <Modal title="Детали ингредиента" onClose={() => window.history.back()} >
+                                <IngredientDetails />
+                            </Modal>
+                        }
+                    />
+                </Routes>
+            )}
         </>
     );
 }
-
-export default App;

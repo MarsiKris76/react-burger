@@ -1,16 +1,20 @@
-import React, { useRef } from 'react';
-import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDrop } from 'react-dnd';
+import {FC, useEffect, useMemo, useRef} from 'react';
+import {Button, ConstructorElement, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import {useDrop} from 'react-dnd';
 import styles from './BurgerConstructor.module.css';
 import {BurgerConstructorProps, Ingredient} from "../../types/ComponentTypes";
 import {decrementIngredientCounter, incrementIngredientCounter} from "../../services/slices/IngredientsSlice";
 import {ConstructorItem} from "../constructor-item/ConstructorItem";
-import {selectBurgerConstructor, useAppDispatch, useAppSelector} from "../../services/RootReducer";
-import {addIngredient, removeIngredient, replaceBun} from "../../services/slices/BurgerConstructorSlice";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {addIngredient, burgerConstructorSelectors, removeIngredient, replaceBun} from "../../services/slices/BurgerConstructorSlice";
+import {useNavigate} from "react-router-dom";
+import {userSelectors} from '../../services/slices/UserSlice';
 
-export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderClick } ) => {
+export const BurgerConstructor: FC<BurgerConstructorProps> = ({ onOrderClick } ) => {
     const dispatch = useAppDispatch();
-    const { bun, ingredients } = useAppSelector(selectBurgerConstructor);
+    const navigate = useNavigate();
+    const { user } = useAppSelector(userSelectors.selectUserData);
+    const { bun, ingredients } = useAppSelector(burgerConstructorSelectors.selectBurgerConstructorData);
     const dropRef = useRef<HTMLDivElement>(null);
 
     const [{ isOver }, drop] = useDrop({
@@ -32,13 +36,13 @@ export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderCli
         }),
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (dropRef.current) {
             drop(dropRef.current);
         }
     }, [drop]);
 
-    const totalPrice = React.useMemo(() => {
+    const totalPrice = useMemo(() => {
         const bunPrice = bun ? bun.price * 2 : 0;
         const ingredientsPrice = ingredients.reduce((sum, item) => sum + item.price, 0);
         return bunPrice + ingredientsPrice;
@@ -57,12 +61,15 @@ export const BurgerConstructor: React.FC<BurgerConstructorProps> = ({ onOrderCli
             alert('Добавьте булку и хотя бы одну начинку для оформления заказа');
             return;
         }
+        if (!user) {
+            navigate('/login');
+        }
         onOrderClick();
     };
 
     return (
         <section className={`${styles.section} mt-25 pr-4 pl-4`}>
-            <div ref={dropRef} className={`${styles.dropZone} ${isOver ? styles.dropZoneActive : ''}`} >
+            <div ref={dropRef} className={`${isOver ? styles.dropZoneActive : ''}`} >
                 {bun ? (
                     <div className={`${styles.bunContainer} mb-4 pl-6 ml-8`}>
                         <ConstructorElement

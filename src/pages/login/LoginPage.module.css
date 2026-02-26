@@ -1,0 +1,30 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 480px;
+}
+
+.footer {
+    text-align: center;
+}
+
+.link {
+    color: #4C4CFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link:hover {
+    opacity: 0.8;
+}

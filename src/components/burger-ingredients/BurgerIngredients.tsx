@@ -2,19 +2,20 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useMemo, useRef, useState, useEffect} from "react";
 import styles from './BurgerIngredients.module.css';
 import {Ingredient, IngredientType} from "../../types/ComponentTypes";
-import {Modal} from "../modal/Modal";
-import {IngredientDetails} from "../ingredient-details/IngredientDetails";
 import {IngredientCard} from "../ingredient-card/IngredientCard";
-import {selectIngredients, useAppDispatch, useAppSelector} from "../../services/RootReducer";
-import {clearCurrentIngredient, setCurrentIngredient} from "../../services/slices/ViewIngredientSlice";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {setCurrentIngredient} from "../../services/slices/ViewIngredientSlice";
+import {useLocation, useNavigate} from "react-router-dom";
+import {ingredientsSelectors} from "../../services/slices/IngredientsSlice";
 
 const sectionHeaderClassName = "text text_type_main-medium mb-6 mt-10";
 
 export const BurgerIngredients = () => {
     const dispatch = useAppDispatch();
-    const { items: ingredients } = useAppSelector(selectIngredients);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { ingredients } = useAppSelector(ingredientsSelectors.selectIngredientsData);
     const [currentTab, setCurrentTab] = useState<IngredientType>('bun')
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const bunRef = useRef<HTMLDivElement>(null);
     const sauceRef = useRef<HTMLDivElement>(null);
     const mainRef = useRef<HTMLDivElement>(null);
@@ -68,12 +69,7 @@ export const BurgerIngredients = () => {
 
     const handleOpenDetailsModal = (ingredient: Ingredient) => {
         dispatch(setCurrentIngredient(ingredient));
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        dispatch(clearCurrentIngredient());
-        setIsModalOpen(false);
+        navigate(`/ingredients/${ingredient._id}`, { state: { backgroundLocation: location } });
     };
 
     return (
@@ -121,11 +117,6 @@ export const BurgerIngredients = () => {
                     </div>
                 </div>
             </div>
-            {isModalOpen && (
-                <Modal title="Детали ингредиента" onClose={handleCloseModal}>
-                    <IngredientDetails />
-                </Modal>
-            )}
         </section>
     );
 };

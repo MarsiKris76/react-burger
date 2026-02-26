@@ -1,0 +1,9 @@
+.form {
+    max-width: 480px;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
