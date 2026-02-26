@@ -47,7 +47,7 @@ export const App = () => {
                     <Route path="orders" element={<OrdersLst />} />
                 </Route>
                 <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
-                <Route path="/orders" element={<ProtectedRouteElement><OrdersListPage /></ProtectedRouteElement>} />
+                <Route path="/feed" element={<ProtectedRouteElement><OrdersListPage /></ProtectedRouteElement>} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
             {backgroundLocation && (
