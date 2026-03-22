@@ -1,4 +1,5 @@
 import {ChangeEvent, ReactNode} from "react";
+import {Order} from "./ApiTypes";
 
 export type IngredientType = 'bun' | 'sauce' | 'main';
 
@@ -53,4 +54,12 @@ export type UseFormReturn<T> = {
     handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
     setValues: (newValues: T) => void;
     reset: () => void;
+}
+
+export type OrderCardProps = {
+    order: Order;
+}
+
+export type OrdersPageProps = {
+    orders: Order[];
 }

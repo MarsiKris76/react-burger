@@ -49,3 +49,24 @@ export type ResetPasswordRequest = {
 export type ForgotPasswordRequest = {
     email: string;
 }
+
+export type Order = {
+    _id: string;
+    ingredients: string[];
+    status: 'created' | 'pending' | 'done';
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    number: number;
+};
+
+export type WSMessage = {
+    success: boolean;
+    orders: Order[];
+    total: number;
+    totalToday: number;
+};
+
+export type WebSocketOptions = {
+    withTokenRefresh: boolean;
+};
