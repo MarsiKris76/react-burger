@@ -15,14 +15,17 @@ import {ProfileForm} from "../profile-form/ProfileForm";
 import {Modal} from "../modal/Modal";
 import {IngredientDetails} from "../ingredient-details/IngredientDetails";
 import {ProtectedRouteElement} from "../protected-route-element/ProtectedRouteElement";
-import {OrdersPage} from "../../pages/order/OrdersPage";
+import {OrdersPage} from "../../pages/orders/OrdersPage";
+import {OrderCard} from "../order-card/OrderCard";
+import {OrderDetailsPage} from "../../pages/order-details/OrderDetailsPage";
+import {OrdersList} from "../orders-list/OrdersList";
 
 export const App = () => {
     const dispatch = useAppDispatch();
     const { isAuthChecked, user } = useAppSelector(userSelectors.selectUserData);
     const location = useLocation();
     const hasToken = !!localStorage.getItem('accessToken');
-    const backgroundLocation = location.state?.backgroundLocation || location;
+    const backgroundLocation = location.state?.backgroundLocation;
 
     const closeHandler = () => window.history.back();
 
@@ -44,11 +47,11 @@ export const App = () => {
                 <Route path="/reset-password" element={<ProtectedRouteElement onlyUnAuth={true}><ResetPasswordPage /></ProtectedRouteElement>} />
                 <Route path="/profile" element={<ProtectedRouteElement><ProfilePage /></ProtectedRouteElement>}>
                     <Route index element={<ProfileForm />} />
-                    {/*<Route path="orders" element={<OrdersLst />} />*/}
+                    <Route path="orders" element={<OrdersList withAuthorization={true} />} />
                 </Route>
                 <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
                 <Route path="/feed" element={<OrdersPage />} />
-                {/*<Route path="/feed/:id" element={< OrdersPage/>} />*/}
+                <Route path="/feed/:id" element={<OrderDetailsPage/>} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
             {backgroundLocation && (
@@ -59,8 +62,8 @@ export const App = () => {
                         </Modal>}
                     />
                     <Route path="/feed/:id" element={
-                        <Modal title="Детали ингредиента" onClose={closeHandler} >
-                            {/*<OrderCard />*/}
+                        <Modal title="Детали заказа" onClose={closeHandler} >
+                            <OrderCard />
                         </Modal>}
                     />
                 </Routes>

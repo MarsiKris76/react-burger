@@ -1,7 +1,7 @@
 import styles from './OrdersPage.module.css';
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
-import {feedSelectors, wsConnect, wsDisconnect} from "../../services/slices/FeedSlice";
+import {feedSelectors} from "../../services/slices/FeedSlice";
 import {OrdersList} from "../../components/orders-list/OrdersList";
 import {Order} from "../../types/ApiTypes";
 import {OrdersNumbers} from "../../components/orders-numders/OrderNumbers";
@@ -26,16 +26,12 @@ export const OrdersPage = () => {
 
     useEffect(() => {
         if (!ingredients.length) dispatch(fetchIngredients());
-        dispatch(wsConnect('wss://norma.education-services.ru/orders/all'));
-        return () => {
-          dispatch(wsDisconnect());
-        };
     }, [dispatch, ingredients.length]);
 
     return (
         <main className={styles.main}>
             <div className={styles.content}>
-                <OrdersList orders={orders}/>
+                <OrdersList withAuthorization={false} />
                 <div className="mt-25">
                     {doneColumns.length > 0 && (<OrdersNumbers title={"Готовы:"} orders={doneColumns} isDone={true}/>)}
                     {pendingColumns.length > 0 && (<OrdersNumbers title={"В работе:"} orders={pendingColumns}/>)}

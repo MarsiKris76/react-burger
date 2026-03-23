@@ -1,3 +1,5 @@
+import {Ingredient} from "../types/ComponentTypes";
+
 export const getTokens = (): { accessToken: string | null; refreshToken: string | null } => {
     return {
         accessToken: localStorage.getItem('accessToken'),
@@ -14,3 +16,7 @@ export const removeTokens = (): void => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
 };
+
+export const totalPrice = (ingredients: Ingredient[]) => ingredients.reduce((sum, ingredient) => {
+    return sum + (ingredient ? ingredient.price : 0);
+}, 0);

@@ -9,6 +9,7 @@ import {
 import {RootState} from "../types/StoreTypes";
 import {refreshToken} from "./UserApi";
 import {WebSocketOptions} from "../types/ApiTypes";
+import {wsConnecting} from "../services/slices/FeedSlice";
 
 type WebSocketActions<TMessage> = {
     connect: ActionCreatorWithPayload<string>;
@@ -45,6 +46,7 @@ export function createWebSocketMiddleware<TMessage>(
                         console.warn('WebSocket is already connected.');
                         return;
                     }
+                    store.dispatch(wsConnecting());
                     url = action.payload;
                     socket = new WebSocket(url);
                     isConnected = true;

@@ -69,3 +69,13 @@ export type OrderNumbersProps = {
     orders: Order[][];
     isDone?: boolean;
 }
+
+export type IngredientAvatarProps = {
+    ingredient: Ingredient;
+    index?: number;
+    length?: number;
+}
+
+export type OrdersListProps = {
+    withAuthorization: boolean;
+}

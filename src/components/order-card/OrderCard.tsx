@@ -1,62 +1,94 @@
 import styles from './OrderCard.module.css';
-import {OrderCardProps} from "../../types/ComponentTypes";
-import {Link, useLocation} from "react-router-dom";
-import {useAppSelector} from "../../services/RootReducer";
-import {ingredientsSelectors} from "../../services/slices/IngredientsSlice";
+import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {fetchIngredients, ingredientsSelectors} from "../../services/slices/IngredientsSlice";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
-import {FC} from "react";
+import {useParams} from "react-router-dom";
+import {feedSelectors} from "../../services/slices/FeedSlice";
+import {Order} from "../../types/ApiTypes";
+import {totalPrice} from "../../utils/Utils";
+import {IngredientAvatar} from "../ingredient-avatar/IngredientAvatar";
+import {useEffect} from "react";
 
-export const OrderCard: FC<OrderCardProps> = ({ order }) => {
-    const location = useLocation();
-    const allIngredients = useAppSelector(ingredientsSelectors.selectIngredientsData).ingredients;
+const getStatusText = (status: string): string => {
+    return status === 'done'
+        ? 'Выполнен'
+        : status === 'pending'
+            ? 'Готовится'
+            : 'Создан';
+}
+
+export const OrderCard= () => {
+    const { id } = useParams<{ id: string }>();
+    const dispatch = useAppDispatch();
+    const { ingredients: allIngredients, loading } = useAppSelector(ingredientsSelectors.selectIngredientsData);
+    const { orders: allOrders, wsConnecting } = useAppSelector(feedSelectors.selectFeed);
+
+    useEffect(() => {
+        if (!allIngredients.length) dispatch(fetchIngredients());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    if (loading || wsConnecting) {
+        return <p className="text text_type_main-large text_color_inactive mt-10">Загрузка...</p>;
+    }
+
+    const order: Order | undefined = allOrders.find(o => o._id === id);
+
+    if (!order) {
+        return (
+            <div className={styles.container}>
+                <p className="text text_type_main-medium">Заказ не найден</p>
+            </div>
+        );
+    }
+
     const orderIngredients = order.ingredients
         .map(ingredientId => allIngredients.find(ingredient => ingredient._id === ingredientId))
         .filter(Boolean) as typeof allIngredients;
-    const orderUrl = `/feed/${order._id}`;
-
-    const totalPrice = orderIngredients.reduce((sum, ingredient) => {
-        return sum + (ingredient ? ingredient.price : 0);
-    }, 0);
 
     return (
-        <Link to={orderUrl} state={{ backgroundLocation: location }} className={styles.cardLink}>
-            <div className={`${styles.card} p-6`}>
-                <div className={styles.header}>
-                    <p className="text text_type_digits-default"># {order.number}</p>
-                    <p className="text text_type_main-default text_color_inactive">
-                        <FormattedDate date={new Date(order.createdAt)} />
-                    </p>
-                </div>
-                <h3 className={`text text_type_main-medium mt-6 mb-2 ${styles.title}`}>
-                    {order.name}
-                </h3>
-                <div className={styles.footer}>
-                    <div className={styles.ingredientsPreview}>
-                        {orderIngredients.slice(0, 6).map((ingredient, index) => (
-                            ingredient && (
-                                <div key={`${ingredient._id}-${index}`}
-                                    className={styles.ingredientImage}
-                                    style={{
-                                        zIndex: orderIngredients.length - index,
-                                        marginLeft: index > 0 ? '-20px' : '0'
-                                    }}
-                                >
-                                    <img src={ingredient.image_mobile || ingredient.image} alt={ingredient.name} />
-                                </div>
-                            )
-                        ))}
-                        {orderIngredients.length > 6 && (
-                            <div className={`${styles.remaining} text text_type_digits-default`}>
-                                +{orderIngredients.length - 6}
-                            </div>
-                        )}
+        <div className={styles.container}>
+            <p className={`text text_type_digits-default mb-10 ${styles.orderNumber}`}>
+                #{order.number}
+            </p>
+            <h3 className="text text_type_main-medium mb-3">
+                {order.name}
+            </h3>
+            <p className={`text text_type_main-default mb-15 ${
+                order.status === 'done'
+                    ? styles.statusDone
+                    : order.status === 'pending'
+                        ? styles.statusPending
+                        : ""
+            }`}>
+                {getStatusText(order.status)}
+            </p>
+            <p className="text text_type_main-medium mb-6">Состав:</p>
+            <div className={`${styles.ingredientsList} mb-10 pr-3`}>
+                {orderIngredients.map((ingredient, index) => (
+                    <div key={`${ingredient._id}-${index}`} className={styles.ingredientItem}>
+                        <div className={`mb-3 ${styles.ingredientInfo}`}>
+                            <IngredientAvatar ingredient={ingredient}/>
+                            <p className="text text_type_main-default ml-4">{ingredient.name}</p>
+                        </div>
+                        <div className={styles.priceInfo}>
+                            <span className="text text_type_digits-default mr-2">
+                                {order.ingredients.filter(id => id === ingredient._id).length} x {ingredient.price}
+                            </span>
+                            <CurrencyIcon type="primary" />
+                        </div>
                     </div>
-                    <div className={styles.price}>
-                        <span className="text text_type_digits-default mr-2">{totalPrice}</span>
-                        <CurrencyIcon type="primary" />
-                    </div>
+                ))}
+            </div>
+            <div className={styles.footer}>
+                <p className="text text_type_main-default text_color_inactive">
+                    <FormattedDate date={new Date(order.createdAt)} />
+                </p>
+                <div className={styles.totalPrice}>
+                    <span className="text text_type_digits-default mr-2">{totalPrice(orderIngredients)}</span>
+                    <CurrencyIcon type="primary" />
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };

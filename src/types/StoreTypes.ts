@@ -50,5 +50,6 @@ export type FeedState = {
     total: number;
     totalToday: number;
     wsConnected: boolean;
+    wsConnecting: boolean;
     error: string | null;
 };
