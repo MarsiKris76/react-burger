@@ -63,3 +63,9 @@ export type OrderCardProps = {
 export type OrdersPageProps = {
     orders: Order[];
 }
+
+export type OrderNumbersProps = {
+    title: string;
+    orders: Order[][];
+    isDone?: boolean;
+}

@@ -1,6 +1,5 @@
 import styles from "./OrdersList.module.css";
 import {OrderCard} from "../order-card/OrderCard";
-import React from "react";
 import {OrdersPageProps} from "../../types/ComponentTypes";
 
 export const OrdersList = ({ orders }: OrdersPageProps) => {

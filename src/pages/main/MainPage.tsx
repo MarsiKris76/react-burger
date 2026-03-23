@@ -11,12 +11,12 @@ import {resetConstructor} from "../../services/slices/BurgerConstructorSlice";
 
 export const MainPage = () => {
     const dispatch = useAppDispatch();
-    const { loading, error } = useAppSelector(ingredientsSelectors.selectIngredientsData);
+    const { loading, error, ingredients } = useAppSelector(ingredientsSelectors.selectIngredientsData);
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchIngredients());
-    }, [dispatch]);
+        if (!ingredients.length) dispatch(fetchIngredients());
+    }, [dispatch, ingredients.length]);
 
     const handleOrderClick = () => {
         dispatch(sendOrder());
