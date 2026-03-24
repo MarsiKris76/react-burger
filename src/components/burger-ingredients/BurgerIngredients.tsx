@@ -14,7 +14,7 @@ export const BurgerIngredients = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const { ingredients } = useAppSelector(ingredientsSelectors.selectIngredientsData);
+    const ingredients = useAppSelector(ingredientsSelectors.selectIngredientsItems);
     const [currentTab, setCurrentTab] = useState<IngredientType>('bun')
     const bunRef = useRef<HTMLDivElement>(null);
     const sauceRef = useRef<HTMLDivElement>(null);

@@ -15,10 +15,10 @@ type WebSocketActions<TMessage> = {
     connect: ActionCreatorWithPayload<string>;
     disconnect: ActionCreatorWithoutPayload;
     sendMessage: ActionCreatorWithPayload<TMessage>;
-    onConnected: ActionCreatorWithPayload<Event>;
-    onDisconnected: ActionCreatorWithPayload<CloseEvent>;
+    onConnected: ActionCreatorWithoutPayload;
+    onDisconnected: ActionCreatorWithoutPayload;
     onMessageReceived: ActionCreatorWithPayload<TMessage>;
-    onError: ActionCreatorWithPayload<Event>;
+    onError: ActionCreatorWithoutPayload;
 };
 
 export function createWebSocketMiddleware<TMessage>(
@@ -51,12 +51,12 @@ export function createWebSocketMiddleware<TMessage>(
                     socket = new WebSocket(url);
                     isConnected = true;
 
-                    socket.onopen = event => {
-                        store.dispatch(onConnected(event));
+                    socket.onopen = () => {
+                        store.dispatch(onConnected());
                     };
 
-                    socket.onclose = event => {
-                        store.dispatch(onDisconnected(event));
+                    socket.onclose = () => {
+                        store.dispatch(onDisconnected());
                         socket = null;
 
                         if (isConnected) {
@@ -81,8 +81,8 @@ export function createWebSocketMiddleware<TMessage>(
                         }
                     };
 
-                    socket.onerror = event => {
-                        store.dispatch(onError(event));
+                    socket.onerror = () => {
+                        store.dispatch(onError());
                     };
                 }
 

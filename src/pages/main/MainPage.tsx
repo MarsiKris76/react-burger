@@ -11,7 +11,9 @@ import {resetConstructor} from "../../services/slices/BurgerConstructorSlice";
 
 export const MainPage = () => {
     const dispatch = useAppDispatch();
-    const { loading, error, ingredients } = useAppSelector(ingredientsSelectors.selectIngredientsData);
+    const ingredients = useAppSelector(ingredientsSelectors.selectIngredientsItems);
+    const loading = useAppSelector(ingredientsSelectors.selectIngredientsLoading);
+    const error = useAppSelector(ingredientsSelectors.selectIngredientsError);
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
     useEffect(() => {

@@ -68,11 +68,10 @@ export const ingredientsSlice = createSlice({
             });
     },
     selectors: {
-        selectIngredientsData: (state) => ({
-            ingredients: state.items,
-            loading: state.loading,
-            error: state.error
-          })
+        selectIngredients: (state) => state,
+        selectIngredientsItems: (state) => state.items,
+        selectIngredientsLoading: (state) => state.loading,
+        selectIngredientsError: (state) => state.error
     },
 });
 

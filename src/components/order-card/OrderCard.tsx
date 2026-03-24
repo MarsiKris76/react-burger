@@ -20,7 +20,8 @@ const getStatusText = (status: string): string => {
 export const OrderCard= () => {
     const { id } = useParams<{ id: string }>();
     const dispatch = useAppDispatch();
-    const { ingredients: allIngredients, loading } = useAppSelector(ingredientsSelectors.selectIngredientsData);
+    const allIngredients = useAppSelector(ingredientsSelectors.selectIngredientsItems);
+    const loading = useAppSelector(ingredientsSelectors.selectIngredientsLoading);
     const { orders: allOrders, wsConnecting } = useAppSelector(feedSelectors.selectFeed);
 
     useEffect(() => {

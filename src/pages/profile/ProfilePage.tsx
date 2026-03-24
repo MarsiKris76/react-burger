@@ -17,8 +17,8 @@ export const ProfilePage = () => {
     };
 
     return (
-        <div className={styles.profileContainer}>
-            <div className={`${styles.sidebar} mr-15`}>
+        <div className={`pt-25 ${styles.profileContainer}`}>
+            <aside className={styles.sidebar}>
                 <nav>
                     <ul className={`${styles.menuList} text text_type_main-medium`}>
                         <li>
@@ -39,13 +39,13 @@ export const ProfilePage = () => {
                     </ul>
                 </nav>
                 <p className={'text text_type_main-default text_color_inactive mt-20'}>
-                    В этом разделе вы можете<br/>изменить свои персональные данные
+                    {isProfileActive ? "В этом разделе вы можете изменить свои персональные данные"
+                        : "В этом разделе вы можете посмотреть свою историю заказов"}
                 </p>
-            </div>
-            <div className={styles.content}>
+            </aside>
+            <main className={styles.content}>
                 <Outlet />
-            </div>
-            <div className={styles.spacer}></div>
+            </main>
         </div>
     );
 }

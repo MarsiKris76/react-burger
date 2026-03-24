@@ -48,6 +48,7 @@ export const App = () => {
                 <Route path="/profile" element={<ProtectedRouteElement><ProfilePage /></ProtectedRouteElement>}>
                     <Route index element={<ProfileForm />} />
                     <Route path="orders" element={<OrdersList withAuthorization={true} />} />
+                    <Route path="orders/:id" element={<OrderDetailsPage />} />
                 </Route>
                 <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
                 <Route path="/feed" element={<OrdersPage />} />
@@ -65,6 +66,13 @@ export const App = () => {
                         <Modal title="Детали заказа" onClose={closeHandler} >
                             <OrderCard />
                         </Modal>}
+                    />
+                    <Route path="/profile/orders/:id" element={
+                        <ProtectedRouteElement>
+                            <Modal title="Детали заказа" onClose={closeHandler} >
+                                <OrderCard />
+                            </Modal>
+                        </ProtectedRouteElement>}
                     />
                 </Routes>
             )}

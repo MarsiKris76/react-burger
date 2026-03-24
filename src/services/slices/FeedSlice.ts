@@ -4,12 +4,12 @@ import {WSMessage} from "../../types/ApiTypes";
 
 export const wsConnect = createAction<string>('WS_CONNECT');
 export const wsDisconnect = createAction('feed/WS_DISCONNECT');
-export const wsSendMessage = createAction<any>('feed/WS_SEND_MESSAGE');
-export const wsConnected = createAction<Event>('feed/WS_CONNECTED');
+export const wsSendMessage = createAction<WSMessage>('feed/WS_SEND_MESSAGE');
+export const wsConnected = createAction('feed/WS_CONNECTED');
 export const wsConnecting = createAction('feed/WS_CONNECTING');
-export const wsDisconnected = createAction<CloseEvent>('feed/WS_DISCONNECTED');
+export const wsDisconnected = createAction('feed/WS_DISCONNECTED');
 export const wsMessageReceived = createAction<WSMessage>('feed/WS_MESSAGE_RECEIVED');
-export const wsError = createAction<Event>('feed/WS_ERROR');
+export const wsError = createAction('feed/WS_ERROR');
 
 const initialState: FeedState = {
     orders: [],
@@ -24,11 +24,6 @@ export const feedSlice = createSlice({
     name: 'feed',
     initialState,
     reducers: {
-        resetFeed: (state) => {
-            state.orders = [];
-            state.total = 0;
-            state.totalToday = 0;
-        },
     },
     extraReducers: (builder) => {
         builder
@@ -45,6 +40,7 @@ export const feedSlice = createSlice({
             .addCase(wsDisconnected, (state) => {
                 state.wsConnected = false;
                 state.wsConnecting = false;
+                state.orders = [];
             })
             .addCase(wsMessageReceived, (state, action: PayloadAction<WSMessage>) => {
                 const { orders, total, totalToday } = action.payload;
@@ -55,7 +51,8 @@ export const feedSlice = createSlice({
             .addCase(wsError, (state) => {
                 state.wsConnected = false;
                 state.wsConnecting = false;
-                state.error = 'WebSocket error occurred';
+                state.orders = [];
+                state.error = 'WebSocket error';
             });
     },
     selectors: {

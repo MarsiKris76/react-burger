@@ -7,7 +7,8 @@ import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
 
 export const OrderDetailsPage = () => {
     const dispatch = useAppDispatch();
-    const { ingredients, loading } = useAppSelector(ingredientsSelectors.selectIngredientsData);
+    const ingredients = useAppSelector(ingredientsSelectors.selectIngredientsItems);
+    const loading = useAppSelector(ingredientsSelectors.selectIngredientsLoading);
     const { wsConnecting, wsConnected } = useAppSelector(feedSelectors.selectFeed);
 
     useEffect(() => {

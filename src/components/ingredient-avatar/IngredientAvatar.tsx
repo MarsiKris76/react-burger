@@ -3,7 +3,7 @@ import {IngredientAvatarProps} from "../../types/ComponentTypes";
 
 export const IngredientAvatar = ({ingredient, index = 0, length = 1}: IngredientAvatarProps) => {
     return (
-        <div key={`${ingredient._id}-${index}`}
+        <div key={`${ingredient._id}+${index}`}
              className={styles.ingredientImage}
              style={{
                  zIndex: length - index,

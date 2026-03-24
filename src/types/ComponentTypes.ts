@@ -78,4 +78,5 @@ export type IngredientAvatarProps = {
 
 export type OrdersListProps = {
     withAuthorization: boolean;
+    title?: string;
 }

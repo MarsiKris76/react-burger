@@ -9,11 +9,11 @@ import {IngredientAvatar} from "../ingredient-avatar/IngredientAvatar";
 
 export const OrderCardMini = ({ order }: OrderCardProps) => {
     const location = useLocation();
-    const allIngredients = useAppSelector(ingredientsSelectors.selectIngredientsData).ingredients;
+    const allIngredients = useAppSelector(ingredientsSelectors.selectIngredientsItems);
     const orderIngredients = order.ingredients
         .map(ingredientId => allIngredients.find(ingredient => ingredient._id === ingredientId))
         .filter(Boolean) as typeof allIngredients;
-    const orderUrl = `/feed/${order._id}`;
+    const orderUrl = `${location.pathname}/${order._id}`;
 
     return (
         <Link to={orderUrl} state={{ backgroundLocation: location }} className={styles.cardLink}>
@@ -30,7 +30,7 @@ export const OrderCardMini = ({ order }: OrderCardProps) => {
                 <div className={styles.footer}>
                     <div className={styles.ingredientsPreview}>
                         {orderIngredients.slice(0, 6).map((ingredient, index) => (
-                            ingredient && (<IngredientAvatar ingredient={ingredient} index={index} length={orderIngredients.length} />)
+                            ingredient && (<IngredientAvatar key={`${ingredient._id}-${index}`} ingredient={ingredient} index={index} length={orderIngredients.length} />)
                         ))}
                         {orderIngredients.length > 6 && (
                             <div className={`${styles.remaining} text text_type_digits-default`}>

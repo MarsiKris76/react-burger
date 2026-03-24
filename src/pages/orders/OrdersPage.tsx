@@ -1,14 +1,12 @@
 import styles from './OrdersPage.module.css';
-import React, {useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
+import {useAppSelector} from "../../services/RootReducer";
 import {feedSelectors} from "../../services/slices/FeedSlice";
 import {OrdersList} from "../../components/orders-list/OrdersList";
 import {Order} from "../../types/ApiTypes";
 import {OrdersNumbers} from "../../components/orders-numders/OrderNumbers";
-import {fetchIngredients, ingredientsSelectors} from "../../services/slices/IngredientsSlice";
 
 const chunkOrders = (arr: Order[], size: number) => {
-    const chunks = [];
+    const chunks: Order[][] = [];
     for (let i = 0; i < arr.length; i += size) {
         chunks.push(arr.slice(i, i + size));
     }
@@ -16,22 +14,16 @@ const chunkOrders = (arr: Order[], size: number) => {
 };
 
 export const OrdersPage = () => {
-    const dispatch = useAppDispatch();
     const { orders, total, totalToday } = useAppSelector(feedSelectors.selectFeed);
-    const { ingredients } = useAppSelector(ingredientsSelectors.selectIngredientsData)
     const doneOrders = orders.filter(order => order.status === 'done');
     const pendingOrders = orders.filter(order => order.status === 'pending');
     const doneColumns = chunkOrders(doneOrders, 10);
     const pendingColumns = chunkOrders(pendingOrders, 10);
 
-    useEffect(() => {
-        if (!ingredients.length) dispatch(fetchIngredients());
-    }, [dispatch, ingredients.length]);
-
     return (
         <main className={styles.main}>
             <div className={styles.content}>
-                <OrdersList withAuthorization={false} />
+                <OrdersList withAuthorization={false} title={"Лента заказов"}/>
                 <div className="mt-25">
                     {doneColumns.length > 0 && (<OrdersNumbers title={"Готовы:"} orders={doneColumns} isDone={true}/>)}
                     {pendingColumns.length > 0 && (<OrdersNumbers title={"В работе:"} orders={pendingColumns}/>)}
