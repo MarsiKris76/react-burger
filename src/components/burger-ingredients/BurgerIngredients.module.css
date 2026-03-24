@@ -10,7 +10,6 @@
     height: calc(100vh - 300px); /* Высота минус заголовок и табы */
     min-height: 400px;
     overflow-y: auto;
-    padding-right: 10px;
 }
 
 .scrollContainer::-webkit-scrollbar {

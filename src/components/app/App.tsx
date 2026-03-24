@@ -48,7 +48,7 @@ export const App = () => {
                 <Route path="/profile" element={<ProtectedRouteElement><ProfilePage /></ProtectedRouteElement>}>
                     <Route index element={<ProfileForm />} />
                     <Route path="orders" element={<OrdersList withAuthorization={true} />} />
-                    <Route path="orders/:id" element={<OrderDetailsPage />} />
+                    <Route path="orders/:id" element={<OrderCard />} />
                 </Route>
                 <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
                 <Route path="/feed" element={<OrdersPage />} />

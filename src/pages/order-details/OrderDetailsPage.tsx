@@ -23,7 +23,7 @@ export const OrderDetailsPage = () => {
     }, []);
 
     return (
-        <div className={styles.container}>
+        <div className={`pt-30 ${styles.container}`}>
             <OrderCard />
         </div>
     );

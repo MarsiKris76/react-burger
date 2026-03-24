@@ -58,10 +58,7 @@ export type UseFormReturn<T> = {
 
 export type OrderCardProps = {
     order: Order;
-}
-
-export type OrdersPageProps = {
-    orders: Order[];
+    withStatus?: boolean;
 }
 
 export type OrderNumbersProps = {

@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../services/RootReducer";
 import {OrdersListProps} from "../../types/ComponentTypes";
 import {getTokens} from "../../utils/Utils";
 import {fetchIngredients, ingredientsSelectors} from "../../services/slices/IngredientsSlice";
+import {Order} from "../../types/ApiTypes";
 
 export const OrdersList = ({withAuthorization, title}: OrdersListProps) => {
     const dispatch = useAppDispatch();
@@ -28,8 +29,10 @@ export const OrdersList = ({withAuthorization, title}: OrdersListProps) => {
             {orders && orders.length ?
                 (<div className={styles.ordersContainer}>
                     <ul className={styles.ordersList}>
-                        {orders.map(order => (
-                            <OrderCardMini key={order._id} order={order}/>
+                        {[...orders].sort((a: Order, b: Order) =>
+                            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                        ).map(order => (
+                            <OrderCardMini key={order._id} order={order} withStatus={withAuthorization} />
                         ))}
                     </ul>
                 </div>) : (<span className="text text_type_main-medium">{error ? error : "Ждём ваших заказов"}</span>)}

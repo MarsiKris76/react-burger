@@ -56,3 +56,15 @@
     display: flex;
     align-items: center;
 }
+
+.statusDone {
+    color: #00CCCC;
+}
+
+.statusPending {
+    color: #F2F2F3;
+}
+
+.statusCreated {
+    color: #8585AD;
+}

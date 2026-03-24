@@ -87,7 +87,7 @@ export const BurgerIngredients = () => {
                 </Tab>
             </div>
 
-            <div ref={containerRef} className={styles.scrollContainer}>
+            <div ref={containerRef} className={`pr-2 ${styles.scrollContainer}`}>
                 <div ref={bunRef} id="buns-section">
                     <h3 className={sectionHeaderClassName}>Булки</h3>
                     <div className={styles.grid}>
