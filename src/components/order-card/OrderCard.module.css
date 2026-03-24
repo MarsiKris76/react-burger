@@ -1,0 +1,54 @@
+.container {
+    min-width: 500px;
+    max-width: 600px;
+}
+
+.statusDone {
+    color: #00CCCC;
+}
+
+.statusPending {
+    color: #F2F2F3;
+}
+
+.statusCreated {
+    color: #F2F2F3;
+}
+
+.ingredientsList {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.ingredientItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ingredientInfo {
+    display: flex;
+    align-items: center;
+}
+
+.priceInfo {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.totalPrice {
+    display: flex;
+    align-items: center;
+}
+
+.orderNumber {
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,11 @@
+.main {
+    flex: 1;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1324px;
+    margin: auto;
+}

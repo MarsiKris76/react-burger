@@ -1,19 +1,21 @@
 .profileContainer {
     display: flex;
-    margin: auto;
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 60px;
+    box-sizing: border-box;
 }
 
 .sidebar {
-    flex: 1 1 33%;
-    min-width: 320px;
+    flex: 0 0 250px;
 }
 
 .content {
     display: flex;
+    min-width: 700px;
     justify-content: center;
-    flex: 1 1 33%;
-}
-.spacer {
     flex: 1 1 33%;
 }
 

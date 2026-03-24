@@ -1,5 +1,6 @@
 import {Ingredient} from "./ComponentTypes";
 import {store} from "../services/RootReducer";
+import {Order} from "./ApiTypes";
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -42,4 +43,13 @@ export type UserState = {
     isUpdating: boolean;
     isPasswordRecoveryRequested: boolean;
     isRegistering: boolean;
+};
+
+export type FeedState = {
+    orders: Order[];
+    total: number;
+    totalToday: number;
+    wsConnected: boolean;
+    wsConnecting: boolean;
+    error: string | null;
 };

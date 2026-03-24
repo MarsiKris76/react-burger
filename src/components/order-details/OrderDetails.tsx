@@ -3,6 +3,7 @@ import styles from './OrderDetails.module.css';
 import {useAppSelector} from "../../services/RootReducer";
 import {orderSelectors} from '../../services/slices/OrderSlice';
 
+// Страница с информацией о сделанном новом заказа (ответ на отправку нового заказа).
 export const OrderDetails: FC = () => {
     const { order, orderRequest, error } = useAppSelector(orderSelectors.selectorOderData);
 

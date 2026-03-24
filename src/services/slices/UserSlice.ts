@@ -229,14 +229,7 @@ export const userSlice = createSlice({
             });
     },
     selectors: {
-        selectUserData: (state) => ({
-            user: state.user,
-            isAuthChecked: state.isAuthChecked,
-            authError: state.authError,
-            isUpdating: state.isUpdating,
-            isPasswordRecoveryRequested: state.isPasswordRecoveryRequested,
-            isRegistering: state.isRegistering,
-        })
+        selectUserData: (state) => state,
     },
 });
 

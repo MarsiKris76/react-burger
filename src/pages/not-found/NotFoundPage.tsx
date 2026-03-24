@@ -3,7 +3,7 @@ import styles from './NotFoundPage.module.css';
 
 export const NotFoundPage = () => {
     return (
-        <div className={styles.container}>
+        <div className={`p-5 ${styles.container}`}>
             <div className={styles.content}>
                 <h1 className={`${styles.title} text text_type_main-large`}>
                     404

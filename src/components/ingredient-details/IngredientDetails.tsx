@@ -9,7 +9,8 @@ export const IngredientDetails = () => {
 
     const dispatch = useAppDispatch();
     const { id } = useParams<{ id: string }>();
-    const { loading, ingredients } = useAppSelector(ingredientsSelectors.selectIngredientsData);
+    const ingredients = useAppSelector(ingredientsSelectors.selectIngredientsItems);
+    const loading = useAppSelector(ingredientsSelectors.selectIngredientsLoading);
 
     useEffect(() => {
         if (ingredients.length === 0) {

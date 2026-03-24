@@ -16,7 +16,7 @@ export const AppHeader = () => {
                             </>
                         )}
                     </NavLink>
-                    <NavLink to="/orders" className={({ isActive }) => `${isActive ? '' : 'text_color_inactive'} pl-5 pr-5 pb-4 pt-4 ml-2`}>
+                    <NavLink to="/feed" className={({ isActive }) => `${isActive ? '' : 'text_color_inactive'} pl-5 pr-5 pb-4 pt-4 ml-2`}>
                         {({ isActive }) => (
                             <>
                                 <ListIcon type={isActive ? 'primary' : 'secondary'} />

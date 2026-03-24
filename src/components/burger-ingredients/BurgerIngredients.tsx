@@ -14,7 +14,7 @@ export const BurgerIngredients = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const { ingredients } = useAppSelector(ingredientsSelectors.selectIngredientsData);
+    const ingredients = useAppSelector(ingredientsSelectors.selectIngredientsItems);
     const [currentTab, setCurrentTab] = useState<IngredientType>('bun')
     const bunRef = useRef<HTMLDivElement>(null);
     const sauceRef = useRef<HTMLDivElement>(null);
@@ -87,7 +87,7 @@ export const BurgerIngredients = () => {
                 </Tab>
             </div>
 
-            <div ref={containerRef} className={styles.scrollContainer}>
+            <div ref={containerRef} className={`pr-2 ${styles.scrollContainer}`}>
                 <div ref={bunRef} id="buns-section">
                     <h3 className={sectionHeaderClassName}>Булки</h3>
                     <div className={styles.grid}>
