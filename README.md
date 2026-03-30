@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Ссылка на проект
+
+[Stellar Burger](https://bykovme.nomorepartiessite.ru/).
+
 ## Установка зависимостей
 
 Для установки зависимостей необходимо использовать флаг "--legacy-peer-deps".
