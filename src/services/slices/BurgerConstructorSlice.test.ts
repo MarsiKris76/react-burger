@@ -20,30 +20,26 @@ const createConstructorIngredient = (ingredient: Ingredient): ConstructorIngredi
 });
 
 describe('burgerConstructorSlice reducers', () => {
-    let initialState: BurgerConstructorState;
-
-    beforeEach(() => {
-        initialState = {
-            bun: null,
-            ingredients: []
-        };
-    });
+    const getInitialState = (): BurgerConstructorState => {
+        // Способ 1: Использовать getState() редьюсера (подходит, если редьюсер не зависит от внешнего состояния)
+        return burgerConstructorReducer(undefined, { type: '@@INIT' }); // @@INIT - стандартное действие Redux для инициализации
+    };
 
     describe('addIngredient', () => {
         it('should add bun to state when ingredient type is bun', () => {
-            const state = burgerConstructorReducer(initialState, addIngredient(mockBun));
+            const state = burgerConstructorReducer(getInitialState(), addIngredient(mockBun));
             expect(state.bun).not.toBeNull();
             expect(state.bun?._id).toBe('bun-id-1');
             expect(state.ingredients).toHaveLength(0);
         });
         it('should add ingredient to ingredients array when type is not bun', () => {
-            const state = burgerConstructorReducer(initialState, addIngredient(mockMain));
+            const state = burgerConstructorReducer(getInitialState(), addIngredient(mockMain));
             expect(state.bun).toBeNull();
             expect(state.ingredients).toHaveLength(1);
             expect(state.ingredients[0]._id).toBe('main-id-1');
         });
         it('should replace existing bun when adding new bun', () => {
-            let state = burgerConstructorReducer(initialState, addIngredient(mockBun));
+            let state = burgerConstructorReducer(getInitialState(), addIngredient(mockBun));
             const newBun: Ingredient = { ...mockBun, _id: '4', name: 'Другая булочка' };
             state = burgerConstructorReducer(state, addIngredient(newBun));
             expect(state.bun?._id).toBe('4');
@@ -57,7 +53,7 @@ describe('burgerConstructorSlice reducers', () => {
             const ingredientWithUuid2 = createConstructorIngredient(mockSauce);
 
             const modifiedState: BurgerConstructorState = {
-                ...initialState,
+                ...getInitialState(),
                 ingredients: [ingredientWithUuid1, ingredientWithUuid2]
             };
             const state = burgerConstructorReducer(modifiedState, removeIngredient(ingredientWithUuid1.uuid));
@@ -67,7 +63,7 @@ describe('burgerConstructorSlice reducers', () => {
         it('should not change state if ingredient with uuid not found', () => {
             const ingredientWithUuid = createConstructorIngredient(mockMain);
             const modifiedState: BurgerConstructorState = {
-                ...initialState,
+                ...getInitialState(),
                 ingredients: [ingredientWithUuid]
             };
             const state = burgerConstructorReducer(modifiedState, removeIngredient('non-existent-uuid'));
@@ -81,7 +77,7 @@ describe('burgerConstructorSlice reducers', () => {
             const ingredient2 = createConstructorIngredient(mockSauce);
             const ingredient3 = createConstructorIngredient(mockMain2);
             const modifiedState: BurgerConstructorState = {
-                ...initialState,
+                ...getInitialState(),
                 ingredients: [ingredient1, ingredient2, ingredient3]
             };
             const state = burgerConstructorReducer(
@@ -96,7 +92,7 @@ describe('burgerConstructorSlice reducers', () => {
         it('should handle moving ingredient to same position', () => {
             const ingredient = createConstructorIngredient(mockMain);
             const modifiedState: BurgerConstructorState = {
-                ...initialState,
+                ...getInitialState(),
                 ingredients: [ingredient]
             };
             const state = burgerConstructorReducer(
@@ -109,14 +105,14 @@ describe('burgerConstructorSlice reducers', () => {
 
     describe('replaceBun', () => {
         it('should replace bun with new ingredient', () => {
-            let state = burgerConstructorReducer(initialState, addIngredient(mockBun));
+            let state = burgerConstructorReducer(getInitialState(), addIngredient(mockBun));
             const newBun: Ingredient = { ...mockBun, _id: 'bun-id-5', name: 'Новая булочка' };
             state = burgerConstructorReducer(state, replaceBun(newBun));
             expect(state.bun?._id).toBe('bun-id-5');
             expect(state.bun?.name).toBe('Новая булочка');
         });
         it('should set bun when no bun exists', () => {
-            const state = burgerConstructorReducer(initialState, replaceBun(mockBun));
+            const state = burgerConstructorReducer(getInitialState(), replaceBun(mockBun));
             expect(state.bun?._id).toBe('bun-id-1');
         });
     });
