@@ -60,6 +60,7 @@ export const LoginPage = () => {
                     type="primary"
                     size="medium"
                     disabled={!values.email || !values.password}
+                    data-testid="login-button"
                 >
                     Войти
                 </Button>

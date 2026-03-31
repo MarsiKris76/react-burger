@@ -69,7 +69,7 @@ export const BurgerConstructor: FC<BurgerConstructorProps> = ({ onOrderClick } )
 
     return (
         <section className={`${styles.section} mt-25 pr-4 pl-4`}>
-            <div ref={dropRef} className={`${isOver ? styles.dropZoneActive : ''}`} >
+            <div ref={dropRef} className={`${isOver ? styles.dropZoneActive : ''}`} data-testid="constructor-drop-place">
                 {bun ? (
                     <div className={`${styles.bunContainer} mb-4 pl-6 ml-8`}>
                         <ConstructorElement
@@ -129,8 +129,9 @@ export const BurgerConstructor: FC<BurgerConstructorProps> = ({ onOrderClick } )
                     type="primary"
                     size="large"
                     onClick={handleMakeOrder}
-                    disabled={!bun || ingredients.length === 0} >
-                    Оформить заказ
+                    disabled={!bun || ingredients.length === 0}
+                    data-testid="send-order-button">
+                        Оформить заказ
                 </Button>
 
             </div>
