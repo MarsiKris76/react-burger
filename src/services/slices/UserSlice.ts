@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {
     login as loginApi,
     register as registerApi,
@@ -9,7 +9,7 @@ import {
     forgotPassword as forgotPasswordApi,
     resetPassword as resetPasswordApi
 } from '../../utils/UserApi';
-import {User, UserState} from '../../types/StoreTypes';
+import type {UserState} from '../../types/StoreTypes';
 import {
     ForgotPasswordRequest,
     LoginRequest,
@@ -130,16 +130,6 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<User>) => {
-            state.user = action.payload;
-            state.isAuthChecked = true;
-            state.authError = null;
-        },
-        logout: (state) => {
-            state.user = null;
-            state.isAuthChecked = true;
-            state.authError = null;
-        },
         authCheck: (state) => {
             state.isAuthChecked = true;
         },
@@ -149,7 +139,6 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // Login
             .addCase(loginUser.pending, (state) => {
                 state.authError = null;
             })
@@ -233,7 +222,7 @@ export const userSlice = createSlice({
     },
 });
 
-export const { setUser, logout, authCheck, clearAuthError } = userSlice.actions;
+export const { authCheck, clearAuthError } = userSlice.actions;
 
 export const {
     reducer: userReducer,

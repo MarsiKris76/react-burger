@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {BurgerConstructorState, ConstructorIngredient} from "../../types/StoreTypes";
 import {Ingredient} from "../../types/ComponentTypes";
-import { v4 as uuid } from 'uuid';
+import {v4 as uuid} from 'uuid';
 
 const initialState: BurgerConstructorState = {
     bun: null,

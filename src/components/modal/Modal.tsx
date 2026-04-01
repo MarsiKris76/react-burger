@@ -29,9 +29,9 @@ export const Modal = ({ title, onClose, children }: ModalProps) => {
         <>
             <ModalOverlay onClick={onClose} />
             <div className={styles.modal}>
-                <div className={styles.header}>
+                <div className={styles.header} data-testid="modal-header">
                     <h2 className={`text text_type_main-large ${styles.title}`}>{title}</h2>
-                    <button className={styles.closeButton} onClick={onClose} aria-label="Закрыть модальное окно" >
+                    <button className={styles.closeButton} onClick={onClose} aria-label="Закрыть модальное окно" data-testid="modal-button">
                         <CloseIcon type="primary" />
                     </button>
                 </div>

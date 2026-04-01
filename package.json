@@ -27,6 +27,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "cypress:open": "npx cypress open",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -36,6 +37,11 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!uuid/.*)"
     ]
   },
   "browserslist": {
@@ -51,6 +57,11 @@
     ]
   },
   "devDependencies": {
-    "@types/uuid": "^10.0.0"
+    "@types/cypress": "^1.1.6",
+    "@types/uuid": "^10.0.0",
+    "cypress": "^15.13.0",
+    "cypress-drag-drop": "^1.1.1",
+    "eslint-plugin-cypress": "^6.2.1",
+    "jest": "^30.3.0"
   }
 }
